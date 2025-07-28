@@ -1,5 +1,6 @@
 @extends('layout.app')
 @section('title', 'Selamat Datang, Admin!')
+@section('nav', 'Admin Panel')
 @section('main')
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,11 +22,11 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->role == "admin") {
-                return redirect()->route('adminadmin.index');
+                return redirect()->route('admin.admin.index');
             } elseif ($user->role == 'teknisi') {
-                return redirect()->route('teknisiservice.index');
+                return redirect()->route('teknisi.incoming_orders');
             } else {
-                return redirect()->route('pelanggan.index');
+                return redirect()->route('costumer.make_an_order');
             }
         } else {
             return redirect()->route('auth.login')->with('failed', 'Email atau Password Salah');

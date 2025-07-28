@@ -1,18 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\costumer;
 
-use App\Models\Services;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ServicesController extends Controller
+class CostumerController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('teknisi.index');
+        return view('costumer.make_an_order');
+    }
+
+    public function orderHistory()
+    {
+        return view('costumer.order_history');
     }
 
     /**
@@ -34,7 +39,7 @@ class ServicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Services $services)
+    public function show(string $id)
     {
         //
     }
@@ -42,7 +47,7 @@ class ServicesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Services $services)
+    public function edit(string $id)
     {
         //
     }
@@ -50,7 +55,7 @@ class ServicesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Services $services)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -58,7 +63,7 @@ class ServicesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Services $services)
+    public function destroy(string $id)
     {
         //
     }

@@ -1,13 +1,14 @@
 @extends('layout.app')
 
 @section('title', 'Edit User')
+@section('nav', 'Admin Panel')
 
 @section('main')
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
         <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
             <h2 class="text-2xl font-bold mb-4">Edit User</h2>
 
-            <form action="{{ route('adminuser.update', $user->id) }}" method="POST">
+            <form action="{{ route('adminadminuser.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -31,7 +32,7 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Password (Kosongkan jika tidak diubah)</label>
-                    <input type="password" name="password" class="w-full mt-1 p-2 border border-gray-300 rounded">
+                    <input type="password" name="password" class="w-full mt-1 p-2 border border-gray-300 rounded" >
                     @error('password')
                         <small class="text-red-600">{{ $message }}</small>
                     @enderror

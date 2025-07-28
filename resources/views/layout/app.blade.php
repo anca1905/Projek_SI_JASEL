@@ -14,7 +14,7 @@
 
     <div class="flex h-screen bg-gray-200">
         <div class="flex-shrink-0 w-64 bg-gray-800 text-white p-4">
-            <h1 class="text-3xl font-bold mb-6 text-center">Admin Panel</h1>
+            <h1 class="text-3xl font-bold mb-6 text-center">@yield('nav')</h1>
             <nav>
                 <ul>
                     @if (Auth::user()->role == 'admin')
@@ -23,51 +23,50 @@
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/dashboard') ? 'bg-gray-700' : '' }}">Dashboard</a>
                         </li>
                         <li class="mb-2">
-                            <a href="{{ route('adminuser.index') }}"
-                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/user') ? 'bg-gray-700' : '' }}">Kelola
+                            <a href="{{ route('adminadminuser.index') }}"
+                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/user') || request()->is('admin/user/*') ? 'bg-gray-700' : '' }}">Kelola
                                 User</a>
                         </li>
                         <li class="mb-2">
-                            <a href="#"
-                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out">Kelola
+                            <a href="{{ route('adminadminkelola_jasa.index') }}"
+                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/kelola_jasa') ? 'bg-gray-700' : '' }}">Kelola
                                 Jasa</a>
                         </li>
                         <li class="mb-2">
-                            <a href="#"
-                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out">Laporan</a>
+                            <a href="{{ route('adminreport.index') }}"
+                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/report') || request()->is('admin/report/*') ? 'bg-gray-700' : '' }}">Laporan</a>
                         </li>
                     @endif
                     @if (Auth::user()->role == 'teknisi')
                         <li class="mb-2">
-                            <a href="#"
-                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out bg-gray-700">Pesanan
+                            <a href="{{ route('teknisi.incoming_orders') }}"
+                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('teknisi/incoming_orders') ? 'bg-gray-700' : '' }}">Pesanan
                                 Masuk</a>
                         </li>
                         <li class="mb-2">
-                            <a href="#"
-                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out">Pesanan
+                            <a href="{{ route('teknisi.my_orders') }}"
+                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('teknisi/my_orders') ? 'bg-gray-700' : '' }}">Pesanan
                                 Saya</a>
-                        </li>
-                        <li class="mb-2">
-                            <a href="#"
-                                class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out text-red-400">Logout</a>
                         </li>
                     @endif
                     @if (Auth::user()->role == 'pelanggan')
                         <li class="mb-2">
-                            <a href="#"
+                            <a href="{{ route('costumer.make_an_order') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out bg-gray-700">Buat
                                 Pesanan</a>
                         </li>
                         <li class="mb-2">
-                            <a href="#"
+                            <a href="{{ route('costumer.order_history') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out">Riwayat
                                 Pesanan</a>
                         </li>
                     @endif
                     <li class="mb-2">
-                        <a href="{{ route('auth.logout') }}"
-                            class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out text-red-400">Logout</a>
+                        <form action="{{ route('auth.logout') }}" method="post"
+                            class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out text-red-400">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
                     </li>
                 </ul>
             </nav>

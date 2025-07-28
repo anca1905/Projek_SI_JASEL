@@ -1,13 +1,14 @@
 @extends('layout.app')
 
 @section('title', 'Tambah User')
+@section('nav', 'Admin Panel')
 
 @section('main')
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
         <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
             <h2 class="text-2xl font-bold mb-4">Tambah User</h2>
 
-            <form action="{{ route('user.store') }}" method="POST">
+            <form action="{{ route('adminadminuser.store') }}" method="POST">
                 @csrf
 
                 <div class="mb-4">
@@ -49,7 +50,7 @@
                 </div>
 
                 <div class="flex justify-between">
-                    <a href="{{ route('user.index') }}" class="text-gray-600 hover:underline">Kembali</a>
+                    <a href="{{ route('adminadminuser.index') }}" class="text-gray-600 hover:underline">Kembali</a>
                     <button type="submit"
                         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
                 </div>

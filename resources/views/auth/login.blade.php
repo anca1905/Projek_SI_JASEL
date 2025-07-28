@@ -9,7 +9,7 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-sm">
         <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
-        <form action="{{ route('login.proses') }}" method="POST">
+        <form action="{{ route('auth.proses') }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
