@@ -56,34 +56,22 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         {{-- Contoh data statis. Ganti dengan @foreach loop dari controller --}}
                         {{-- @forelse($incomingOrders as $order) --}}
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">#001</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Budi Santoso</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Service Laptop</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Jl. Melati No. 123</td>
+                        @foreach ($order as $d)
+                            <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">#{{ str_pad($d->id, 3, '0', STR_PAD_LEFT) }}    </td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->user->name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->manageService->name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->address }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Menunggu Konfirmasi</span>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ $d->status }}</span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">2025-07-28</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->appointment_date }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <button class="text-indigo-600 hover:text-indigo-900 mr-2">Ambil</button>
-                                <a href="#" class="text-gray-600 hover:text-gray-900">Detail</a>
+                                <a href="{{ route('teknisi.show', $d->id) }}" class="text-gray-600 hover:text-gray-900">Detail</a>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">#003</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Joko Susilo</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Instalasi CCTV</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Perumahan Indah Blok C</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Menunggu Konfirmasi</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">2025-07-27</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-indigo-600 hover:text-indigo-900 mr-2">Ambil</button>
-                                <a href="#" class="text-gray-600 hover:text-gray-900">Detail</a>
-                            </td>
-                        </tr>
+                        @endforeach
                         {{-- @empty
                             <tr>
                                 <td colspan="7" class="px-6 py-4 text-center text-gray-500">Tidak ada pesanan masuk.</td>

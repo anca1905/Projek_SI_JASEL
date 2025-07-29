@@ -5,6 +5,8 @@ namespace App\Http\Controllers\teknisi;
 use App\Models\Services;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\ManageServices;
+use App\Models\Orders;
 
 class ServicesController extends Controller
 {
@@ -23,7 +25,8 @@ class ServicesController extends Controller
 
     public function incomingOrders()
     {
-        return view('teknisi.incomingOrders');
+        $order = Orders::where('status', 'menunggu_konfirmasi')->get();
+        return view('teknisi.incomingOrders', compact('order'));
     }
 
     /**
@@ -45,9 +48,10 @@ class ServicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Services $services)
+    public function show($id)
     {
-        //
+        $order = Orders::findOrFail($id);
+        return view('teknisi.show', compact('order'));
     }
 
     /**
