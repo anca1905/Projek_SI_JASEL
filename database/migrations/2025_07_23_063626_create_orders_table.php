@@ -20,9 +20,8 @@ return new class extends Migration
             $table->foreignIdFor(Services::class)->constrained()->cascadeOnDelete();
             $table->unsignedBigInteger('teknisi_id');
             $table->foreign('teknisi_id')->references('id')->on('users');
-            $table->string('item_name');
-            $table->text('complaint');
-            $table->dateTime('scheduled_at')->nullable();
+            $table->text('device_problem');
+            $table->dateTime('appointment_date')->nullable();
             $table->enum('status', ['pending', 'proses', 'selesai', 'batal'])->default('pending');
             $table->timestamps();
         });
