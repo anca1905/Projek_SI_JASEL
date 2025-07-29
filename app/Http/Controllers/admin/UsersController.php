@@ -54,7 +54,7 @@ class UsersController extends Controller
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
 
-        if ($request->role) {
+        if ($request->role) { 
             $data['role'] = $request->role;
         } else {
             $data['role'] = 'pelanggan';
@@ -62,7 +62,7 @@ class UsersController extends Controller
 
         User::create($data);
 
-        return redirect()->route('adminadminuser.index')->with('success', 'User berhasil ditambahkan!');
+        return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil ditambahkan!');
     }
 
     /**
@@ -104,7 +104,7 @@ class UsersController extends Controller
         $data['role'] = $request->role;
         $find->update($data);
 
-        return redirect()->route('adminadminuser.index')->with('success', 'User berhasil diperbarui!');
+        return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil diperbarui!');
     }
 
     /**
@@ -115,11 +115,11 @@ class UsersController extends Controller
         $data = User::find($id);
 
         if (!$data) {
-            return redirect()->route('adminadminuser.index')->with('error', 'User tidak ditemukan!');
+            return redirect()->route('admin.adminuser.index')->with('error', 'User tidak ditemukan!');
         }
 
         $data->delete();
 
-        return redirect()->route('adminadminuser.index')->with('success', 'User berhasil dihapus!');
+        return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil dihapus!');
     }
 }

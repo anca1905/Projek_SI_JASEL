@@ -8,7 +8,7 @@
         <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
             <h2 class="text-2xl font-bold mb-4">Edit User</h2>
 
-            <form action="{{ route('adminadminuser.update', $user->id) }}" method="POST">
+            <form action="{{ route('admin.adminuser.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="flex justify-between">
-                    <a href="{{ route('adminadmin.index') }}" class="text-gray-600 hover:underline">Kembali</a>
+                    <a href="{{ route('admin.adminuser.index') }}" class="text-gray-600 hover:underline">Kembali</a>
                     <button type="submit"
                         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
                 </div>

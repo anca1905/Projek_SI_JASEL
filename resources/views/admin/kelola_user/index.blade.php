@@ -26,19 +26,35 @@
 @section('main')
 
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+
+        {{-- Success/Error Messages --}}
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Sukses!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">{{ session('error') }}</span>
+            </div>
+        @endif
+
         <div class="bg-white p-6 rounded-lg shadow-md">
             <div class="flex flex-wrap justify-between items-center mb-4 gap-4">
                 <!-- Kiri: Judul + Tombol Tambah -->
                 <div class="flex items-center space-x-4">
                     <h3 class="text-xl font-semibold">Daftar Pengguna</h3>
-                    <a href="{{ route('adminadminuser.create') }}"
+                    <a href="{{ route('admin.adminuser.create') }}"
                         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                         Tambah User Baru
                     </a>
                 </div>
 
                 <!-- Kanan: Form Pencarian -->
-                <form action="{{ route('adminadminuser.index') }}" method="GET" class="flex items-center space-x-2">
+                <form action="{{ route('admin.adminuser.index') }}" method="GET" class="flex items-center space-x-2">
                     {{-- Input Search --}}
                     <input type="text" name="search" value="{{ request('search') }}"
                         placeholder="Cari nama atau email..."
@@ -60,7 +76,7 @@
 
                     {{-- Tombol Reset --}}
                     @if (request('search') || request('role'))
-                        <a href="{{ route('adminadminuser.index') }}" class="text-sm text-blue-500 hover:underline ml-2">
+                        <a href="{{ route('admin.adminuser.index') }}" class="text-sm text-blue-500 hover:underline ml-2">
                             Reset
                         </a>
                     @endif
@@ -106,11 +122,11 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('adminadminuser.edit', $user->id) }}"
+                                    <a href="{{ route('admin.adminuser.edit', $user->id) }}"
                                         class="text-indigo-600 hover:text-indigo-900 mr-2">
                                         Edit
                                     </a>
-                                    <form action="{{ route('adminadminuser.destroy', $user->id) }}" method="POST"
+                                    <form action="{{ route('admin.adminuser.destroy', $user->id) }}" method="POST"
                                         class="inline-block"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus user {{ $user->name }}?');">
                                         @csrf
@@ -134,7 +150,7 @@
         </div>
 
 
-        @if ($message = Session::get('success'))
+        {{-- @if ($message = Session::get('success'))
             <div id="toast-success"
                 class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 fixed top-5 right-5"
                 role="alert">
@@ -159,32 +175,32 @@
                     </svg>
                 </button>
             </div>
-        @endif @if ($message = Session::get('error'))
-            <div id="toast-danger"
-                class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 fixed top-5 right-5"
-                role="alert">
-                <div
-                    class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
-                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                        viewBox="0 0 20 20">
-                        <path
-                            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
-                    </svg>
-                    <span class="sr-only">Error icon</span>
+            @endif @if ($message = Session::get('error'))
+                <div id="toast-danger"
+                    class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow-sm dark:text-gray-400 dark:bg-gray-800 fixed top-5 right-5"
+                    role="alert">
+                    <div
+                        class="inline-flex items-center justify-center shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200">
+                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z" />
+                        </svg>
+                        <span class="sr-only">Error icon</span>
+                    </div>
+                    <div class="ms-3 text-sm font-normal">{{ $message }}</div>
+                    <button type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                        data-dismiss-target="#toast-danger" aria-label="Close">
+                        <span class="sr-only">Close</span>
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="ms-3 text-sm font-normal">{{ $message }}</div>
-                <button type="button"
-                    class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-                    data-dismiss-target="#toast-danger" aria-label="Close">
-                    <span class="sr-only">Close</span>
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                    </svg>
-                </button>
-            </div>
-        @endif
+            @endif --}}
 
 
     </main>
