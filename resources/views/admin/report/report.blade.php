@@ -31,19 +31,19 @@
             <h3 class="text-xl font-semibold mb-4 text-gray-800">Laporan Detail</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {{-- Placeholder links for detailed reports --}}
-                <a href="{{ route('adminreport.orders') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
+                <a href="{{ route('admin.report.orders') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
                     <h4 class="font-semibold text-lg text-gray-700">Laporan Pesanan</h4>
                     <p class="text-sm text-gray-500">Lihat detail pesanan berdasarkan status dan periode.</p>
                 </a>
-                <a href="{{ route('adminreport.revenue') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
+                <a href="{{ route('admin.report.revenue') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
                     <h4 class="font-semibold text-lg text-gray-700">Laporan Pendapatan</h4>
                     <p class="text-sm text-gray-500">Analisis pendapatan berdasarkan waktu dan jenis jasa.</p>
                 </a>
-                <a href="{{ route('adminreport.teknisi_performa') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
+                <a href="{{ route('admin.report.technicians') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
                     <h4 class="font-semibold text-lg text-gray-700">Laporan Performa Teknisi</h4>
                     <p class="text-sm text-gray-500">Pantau kinerja masing-masing teknisi.</p>
                 </a>
-                <a href="{{ route('adminreport.jasa_terpopuler') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
+                <a href="{{ route('admin.report.popular_services') }}" class="block p-4 bg-gray-50 hover:bg-gray-100 rounded-lg shadow-sm transition duration-200">
                     <h4 class="font-semibold text-lg text-gray-700">Laporan Jasa Terpopuler</h4>
                     <p class="text-sm text-gray-500">Identifikasi jasa yang paling banyak diminati.</p>
                 </a>
