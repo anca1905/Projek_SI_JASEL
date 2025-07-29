@@ -1,66 +1,88 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Service Elektronik
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Selamat datang di repositori Sistem Service Elektronik! Repositori ini berisi kode sumber untuk aplikasi manajemen service elektronik. Aplikasi ini memungkinkan pengguna untuk membuat pesanan service, teknisi untuk mengelola pesanan masuk, dan admin untuk mengelola pengguna, jasa, dan pesanan secara keseluruhan.
 
-## About Laravel
+## Penjelasan Implementasi Eloquent Relationships
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Di dalam proyek ini, saya telah mengimplementasikan berbagai jenis relasi Eloquent untuk mengelola data antar model dengan efisien. Berikut adalah penjelasan mengenai relasi-relasi yang diterapkan beserta lokasi kode implementasinya:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Relasi One-to-Many (Satu-ke-Banyak)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Relasi ini digunakan ketika satu model memiliki banyak catatan terkait di model lain, tetapi catatan terkait tersebut hanya dimiliki oleh satu model pertama.
 
-## Learning Laravel
+* **Contoh Penerapan:**
+    * **User (Pelanggan) memiliki banyak Pesanan (Order):** Setiap pelanggan dapat membuat banyak pesanan service, tetapi setiap pesanan hanya dimiliki oleh satu pelanggan.
+    * **Service (Jasa) memiliki banyak Pesanan (Order):** Jika sebuah pesanan hanya bisa terkait dengan satu jenis jasa, maka satu jenis jasa bisa dipesan berkali-kali. (Namun, jika satu pesanan bisa memiliki banyak jasa, ini akan menjadi Many-to-Many).
+    * **Teknisi memiliki banyak Pesanan (Order):** Seorang teknisi dapat ditugaskan untuk banyak pesanan.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* **Lokasi Kode:**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    * **Definisi Relasi:**
+        * `User` Model: `hasMany(Order::class)`
+            * [Link ke `app/Models/User.php` - method `orders()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/User.php#LXX)
+        * `Order` Model: `belongsTo(User::class)` dan `belongsTo(Service::class)`
+            * [Link ke `app/Models/Order.php` - method `user()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/Order.php#LXX)
+            * [Link ke `app/Models/Order.php` - method `service()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/Order.php#LXX)
+        * `Service` Model: `hasMany(Order::class)` (jika satu pesanan hanya satu jasa)
+            * [Link ke `app/Models/Service.php` - method `orders()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/Service.php#LXX)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    * **Penggunaan (Controller/View):**
+        * Menampilkan riwayat pesanan pelanggan (`RiwayatPesananController`): Mengambil semua pesanan untuk user yang sedang login.
+            * [Link ke `app/Http/Controllers/Pelanggan/RiwayatPesananController.php` - method `index()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Http/Controllers/Pelanggan/RiwayatPesananController.php#LXX)
+        * Menampilkan detail pesanan (Admin/Teknisi Controller): Mengambil data user yang membuat pesanan.
+            * [Link ke `resources/views/pelanggan/riwayat_pesanan/index.blade.php` - Loop `$orders` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/resources/views/pelanggan/riwayat_pesanan/index.blade.php#LXX)
 
-## Laravel Sponsors
+### 2. Relasi Many-to-Many (Banyak-ke-Banyak)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Relasi ini digunakan ketika banyak catatan di satu model dapat dikaitkan dengan banyak catatan di model lain. Relasi ini biasanya memerlukan tabel pivot (tabel perantara).
 
-### Premium Partners
+* **Contoh Penerapan:**
+    * **Pesanan (Order) memiliki banyak Jasa (Service):** Satu pesanan service mungkin melibatkan lebih dari satu jenis jasa (misalnya, perbaikan AC dan pembersihan). Sebaliknya, satu jenis jasa dapat menjadi bagian dari banyak pesanan yang berbeda.
+    * **Pesanan (Order) memiliki banyak Teknisi:** Satu pesanan mungkin ditangani oleh tim teknisi, dan seorang teknisi dapat terlibat dalam banyak pesanan.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+* **Lokasi Kode:**
 
-## Contributing
+    * **Definisi Relasi:**
+        * `Order` Model: `belongsToMany(Service::class)` (melalui tabel pivot `order_service`)
+            * [Link ke `app/Models/Order.php` - method `services()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/Order.php#LXX)
+        * `Service` Model: `belongsToMany(Order::class)` (melalui tabel pivot `order_service`)
+            * [Link ke `app/Models/Service.php` - method `orders()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/Service.php#LXX)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    * **Penggunaan (Controller/View):**
+        * Saat membuat atau mengedit pesanan: Menyimpan entri ke tabel pivot.
+            * [Link ke `app/Http/Controllers/OrderController.php` - method `store()` atau `update()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Http/Controllers/OrderController.php#LXX)
+        * Menampilkan detail pesanan: Mengambil semua jasa yang terkait dengan pesanan tersebut.
+            * [Link ke `resources/views/order/show.blade.php` - Menampilkan daftar jasa dalam pesanan (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/resources/views/order/show.blade.php#LXX)
 
-## Code of Conduct
+### 3. Relasi One-to-One (Satu-ke-Satu)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Relasi ini digunakan ketika satu model dikaitkan dengan tepat satu catatan di model lain.
 
-## Security Vulnerabilities
+* **Contoh Penerapan:**
+    * **User memiliki satu Profil (misalnya, profil alamat detail):** Setiap pengguna memiliki satu set detail profil tambahan.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* **Lokasi Kode:**
 
-## License
+    * **Definisi Relasi:**
+        * `User` Model: `hasOne(Profile::class)`
+            * [Link ke `app/Models/User.php` - method `profile()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/User.php#LXX)
+        * `Profile` Model: `belongsTo(User::class)`
+            * [Link ke `app/Models/Profile.php` - method `user()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Models/Profile.php#LXX)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    * **Penggunaan (Controller/View):**
+        * Mengambil dan menampilkan profil pengguna.
+            * [Link ke `app/Http/Controllers/ProfileController.php` - method `show()` atau `edit()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Http/Controllers/ProfileController.php#LXX)
+        * Form untuk mengedit profil pengguna.
+            * [Link ke `resources/views/user/profile.blade.php` - Form profil (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/resources/views/user/profile.blade.php#LXX)
+
+### Cara Menggunakan Link (untuk Mentor Anda)
+
+Untuk menggunakan link di atas agar langsung mengarah ke kode spesifik di GitHub Anda, silakan:
+
+1.  **Ganti `USERNAME`** dengan nama pengguna GitHub Anda.
+2.  **Ganti `REPO_NAME`** dengan nama repositori proyek Anda.
+3.  **Ganti `LXX`** dengan nomor baris yang relevan di mana relasi atau penggunaannya didefinisikan dalam file kode Anda.
+
+Contoh: Jika Anda ingin menunjuk ke baris 50 di file `app/Models/User.php` dalam repositori `sistem-service-elektronik` milik user `johndoe`, linknya akan menjadi: `https://github.com/johndoe/sistem-service-elektronik/blob/main/app/Models/User.php#L50`
+
+Semoga penjelasan ini memberikan gambaran yang jelas mengenai implementasi Eloquent Relationships dalam proyek ini!
