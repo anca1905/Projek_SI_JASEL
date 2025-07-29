@@ -23,6 +23,8 @@ use App\Http\Controllers\costumer\CostumerController;
 // Authentication Routes
 Route::get('/', [LoginController::class, 'index'])->name('auth.login');
 Route::post('/login', [LoginController::class, 'proses'])->name('auth.proses');
+Route::get('/register', [LoginController::class, 'register'])->name('auth.register');
+Route::post('/register', [LoginController::class, 'store'])->name('auth.register.store');
 Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 
 // Admin Routes
@@ -65,18 +67,11 @@ Route::middleware(['auth', 'authrole:admin'])->prefix('admin')->name('admin.')->
 Route::middleware(['auth', 'authrole:teknisi'])->prefix('teknisi')->name('teknisi.')->group(function () {
     Route::get('/incoming-orders', [ServicesController::class, 'incomingOrders'])->name('incoming_orders');
     Route::get('/my-orders', [ServicesController::class, 'myOrders'])->name('my_orders');
-    // Tambahkan route untuk aksi "Ambil Pesanan", "Selesai", "Batalkan", "Detail" jika diperlukan
-    // Route::post('/orders/{order}/take', [ServicesController::class, 'takeOrder'])->name('take_order');
-    // Route::post('/orders/{order}/complete', [ServicesController::class, 'completeOrder'])->name('complete_order');
-    // Route::post('/orders/{order}/cancel', [ServicesController::class, 'cancelOrder'])->name('cancel_order');
-    // Route::get('/orders/{order}/detail', [ServicesController::class, 'orderDetail'])->name('order_detail');
 });
 
 // Pelanggan Routes (Contoh, sesuaikan jika sudah ada)
 Route::middleware(['auth', 'authrole:pelanggan'])->prefix('costumer')->name('costumer.')->group(function () {
     Route::get('/make-an-order', [CostumerController::class, 'index'])->name('make_an_order');
+    Route::post('/make-an-order', [CostumerController::class, 'store'])->name('store_order');
     Route::get('/order-history', [CostumerController::class, 'orderHistory'])->name('order_history');
-    // Tambahkan route untuk aksi "Buat Pesanan" jika diperlukan
-    // Route::get('/buat-pesanan', [PelangganController::class, 'createOrder'])->name('create_order');
-    // Route::get('/riwayat-pesanan', [PelangganController::class, 'orderHistory'])->name('order_history');
 });
