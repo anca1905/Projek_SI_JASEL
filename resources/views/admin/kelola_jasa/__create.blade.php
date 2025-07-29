@@ -11,33 +11,36 @@
 
             {{-- Form untuk menambahkan jasa --}}
             {{-- Sesuaikan action dengan route Anda, contoh: route('adminservice.store') --}}
-            <form action="{{ route('adminadminkelola_jasa.store') }}" method="POST">
+            <form action="{{ route('admin.adminkelola_jasa.store') }}" method="POST">
                 @csrf
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Nama Jasa</label>
-                    <input type="text" name="nama_jasa" value="{{ old('nama_jasa') }}"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded" required>
-                    @error('nama_jasa')
+                    <input type="text" name="name" value="{{ old('name') }}"
+                        class="w-full mt-1 p-2 border border-gray-300 rounded" >
+                    @error('name')
                         <small class="text-red-600">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Harga</label>
-                    <input type="number" name="harga" value="{{ old('harga') }}"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded" required>
-                    @error('harga')
+                    <input type="text" id="rupiah" name="price" value="{{ old('price') }}"
+                        class="w-full mt-1 p-2 border border-gray-300 rounded" >
+                    @error('price')
                         <small class="text-red-600">{{ $message }}</small>
                     @enderror
                 </div>
 
                 <div class="flex justify-between mt-6">
                     {{-- Sesuaikan href dengan route daftar jasa Anda, contoh: route('adminservice.index') --}}
-                    <a href="{{ route('adminadminkelola_jasa.index') }}" class="text-gray-600 hover:underline">Kembali</a>
+                    <a href="{{ route('admin.adminkelola_jasa.index') }}" class="text-gray-600 hover:underline">Kembali</a>
                     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
                 </div>
             </form>
         </div>
     </main>
+@endsection
+@section('js')
+    <script src="{{ asset('js/admin/kelola_jasa/create.js') }}"></script>
 @endsection

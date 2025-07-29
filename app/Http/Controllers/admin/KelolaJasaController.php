@@ -4,6 +4,9 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ServiceRequest;
+use App\Models\ManageServices;
+use App\Models\Services;
 
 class KelolaJasaController extends Controller
 {
@@ -12,7 +15,8 @@ class KelolaJasaController extends Controller
      */
     public function index()
     {
-        return view('admin.kelola_jasa.index');
+        $data = ManageServices::all();
+        return view('admin.kelola_jasa.index', compact('data'));
     }
 
     /**
@@ -26,9 +30,19 @@ class KelolaJasaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ServiceRequest $request)
     {
-        //
+        // Validasi data yang diterima dari form
+        $data = $request->validated();
+
+        $data['name'] = $request->name;
+        $data['price'] = $request->price;
+
+        // Simpan data jasa ke database
+        ManageServices::create($data);
+
+        // Redirect atau tampilkan pesan sukses
+        return redirect()->route('admin.adminkelola_jasa.index')->with('success', 'Jasa berhasil ditambahkan.');
     }
 
     /**
@@ -44,15 +58,21 @@ class KelolaJasaController extends Controller
      */
     public function edit(string $id)
     {
-        return view('admin.kelola_jasa.__edit', compact('id'));
+        $service = ManageServices::findOrFail($id);
+        return view('admin.kelola_jasa.__edit', compact('service'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ServiceRequest $request, string $id)
     {
-        //
+        $service = ManageServices::findOrFail($id);
+        $data = $request->validated();
+        $data['name'] = $request->name;
+        $data['price'] = $request->price;
+        $service->update($data);
+        return redirect()->route('admin.adminkelola_jasa.index')->with('success', 'Jasa berhasil diperbarui.');
     }
 
     /**
