@@ -19,21 +19,21 @@
                 <ul>
                     @if (Auth::user()->role == 'admin')
                         <li class="mb-2">
-                            <a href="{{ route('adminadmin.index') }}"
+                            <a href="{{ route('admin.admin.index') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/dashboard') ? 'bg-gray-700' : '' }}">Dashboard</a>
                         </li>
                         <li class="mb-2">
-                            <a href="{{ route('adminadminuser.index') }}"
+                            <a href="{{ route('admin.adminuser.index') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/user') || request()->is('admin/user/*') ? 'bg-gray-700' : '' }}">Kelola
                                 User</a>
                         </li>
                         <li class="mb-2">
-                            <a href="{{ route('adminadminkelola_jasa.index') }}"
+                            <a href="{{ route('admin.adminkelola_jasa.index') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/kelola_jasa') ? 'bg-gray-700' : '' }}">Kelola
                                 Jasa</a>
                         </li>
                         <li class="mb-2">
-                            <a href="{{ route('adminreport.index') }}"
+                            <a href="{{ route('admin.report.index') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('admin/report') || request()->is('admin/report/*') ? 'bg-gray-700' : '' }}">Laporan</a>
                         </li>
                     @endif
