@@ -5,17 +5,17 @@
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
         <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl mx-auto">
             <h3 class="text-xl font-semibold mb-6 text-center">Form Pemesanan Jasa</h3>
-            <form action="/orders" method="POST">
+            <form action="{{ route('costumer.store_order') }}" method="POST">
+                @csrf
                 <div class="mb-4">
                     <label for="service_type" class="block text-gray-700 text-sm font-bold mb-2">Jenis Jasa</label>
                     <select id="service_type" name="service_type"
                         class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ">
                         <option value="">Pilih Jenis Jasa</option>
-                        <option value="laptop" {{ old('service_type') == 'laptop' ? 'selected' : '' }}>Service Laptop
-                        </option>
-                        <option value="ac" {{ old('service_type') == 'ac' ? 'selected' : '' }}>Perbaikan AC</option>
-                        <option value="tv" {{ old('service_type') == 'tv' ? 'selected' : '' }}>Service TV</option>
-                        <option value="cctv" {{ old('service_type') == 'cctv' ? 'selected' : '' }}>Instalasi CCTV</option>
+                        @foreach ($data as $service)
+                            <option value="{{ $service->id }}" {{ old('service_type') == $service->id ? 'selected' : '' }}>
+                                {{ $service->name }}</option>
+                        @endforeach
                     </select>
                     <p class="text-red-500 text-xs italic mt-1 hidden">Jenis jasa wajib dipilih.</p>
                 </div>

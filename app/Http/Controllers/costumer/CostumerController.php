@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\costumer;
 
 use App\Http\Controllers\Controller;
+use App\Models\ManageServices;
+use App\Models\Orders;
 use Illuminate\Http\Request;
 
 class CostumerController extends Controller
@@ -12,12 +14,20 @@ class CostumerController extends Controller
      */
     public function index()
     {
-        return view('costumer.make_an_order');
+        $data = ManageServices::all();
+        return view('costumer.make_an_order', compact('data'));
     }
 
     public function orderHistory()
     {
-        return view('costumer.order_history');
+        $orders = Orders::where('user_id', auth()->id())
+            ->with(['user', 'teknisi', 'manageService'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        if ($orders->isEmpty()) {
+            return redirect()->back()->with('error', 'No orders found.');
+        }
+        return view('costumer.order_history', compact('orders'));
     }
 
     /**
@@ -33,7 +43,17 @@ class CostumerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data['user_id'] = auth()->id();
+        $data['service_type'] = $request->service_type;
+        $data['teknisi_id'] = null;
+        $data['device_problem'] = $request->device_problem;
+        $data['address'] = $request->address;
+        $data['appointment_date'] = $request->appointment_date;
+
+        Orders::create($data);
+
+        return redirect()->route('costumer.order_history')->with('success', 'Order has been created successfully.');
     }
 
     /**

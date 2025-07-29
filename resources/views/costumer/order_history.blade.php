@@ -67,8 +67,8 @@
                         {{-- Contoh data pesanan. Anda akan mengganti ini dengan loop data dari controller --}}
                         @forelse ($orders as $order)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->id }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->service_type }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->user->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->manageService->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ Str::limit($order->device_problem, 50) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @php
@@ -86,7 +86,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $order->created_at->format('Y-m-d') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="{{ route('pelanggan.riwayat_pesanan.show', $order->id) }}" class="text-blue-600 hover:text-blue-900 mr-2">Detail</a>
+                                    <a href="" class="text-blue-600 hover:text-blue-900 mr-2">Detail</a>
                                     @if ($order->status == 'menunggu_konfirmasi')
                                         <form action="" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?');">
                                             @csrf
