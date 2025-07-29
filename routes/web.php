@@ -30,6 +30,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 // Admin Routes
 Route::middleware(['auth', 'authrole:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/show/{id}', [AdminController::class, 'show'])->name('admin.show');
 
     // User Management
     Route::resource('user', UsersController::class)->names([
@@ -67,6 +68,7 @@ Route::middleware(['auth', 'authrole:admin'])->prefix('admin')->name('admin.')->
 Route::middleware(['auth', 'authrole:teknisi'])->prefix('teknisi')->name('teknisi.')->group(function () {
     Route::get('/incoming-orders', [ServicesController::class, 'incomingOrders'])->name('incoming_orders');
     Route::get('/my-orders', [ServicesController::class, 'myOrders'])->name('my_orders');
+    Route::get('/show/{id}', [ServicesController::class, 'show'])->name('show');
 });
 
 // Pelanggan Routes (Contoh, sesuaikan jika sudah ada)
