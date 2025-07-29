@@ -25,7 +25,7 @@
                 </button>
             </div>
             <p class="text-center text-gray-600 text-xs mt-4">
-                Belum punya akun? <a href="#" class="text-blue-500 hover:text-blue-800">Daftar sekarang</a>
+                Belum punya akun? <a href="{{ route('auth.register') }}" class="text-blue-500 hover:text-blue-800">Daftar sekarang</a>
             </p>
         </form>
     </div>
