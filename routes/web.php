@@ -53,7 +53,7 @@ Route::middleware(['auth', 'authrole:admin'])->prefix('admin')->name('admin.')->
 
     // Report Routes
     Route::prefix('report')->name('report.')->group(function () {
-        Route::get('/', [ReportController::class, 'index'])->name('index');
+        Route::get('/', [ReportController::class, 'report'])->name('index');
         Route::get('/orders', [ReportController::class, 'orders'])->name('orders');
         Route::get('/revenue', [ReportController::class, 'revenue'])->name('revenue');
         Route::get('/technicians', [ReportController::class, 'technicians'])->name('technicians');
