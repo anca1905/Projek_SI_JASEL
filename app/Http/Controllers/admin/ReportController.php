@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
+use App\Models\Orders;
 
 class ReportController extends Controller
 {
     public function report(){
         // Logic for generating reports can be added here
-        return view('admin.report.report');
+        $services = Orders::serviceCount();
+        return view('admin.report.report', compact('services'));
     }
 
     public function orders(){
