@@ -75,29 +75,39 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">#001</td>
-                        <td class="px-6 py-4 whitespace-nowrap">Service Laptop</td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span
-                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Menunggu
-                                Konfirmasi</span></td>
-                        <td class="px-6 py-4 whitespace-nowrap">2025-07-23</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900 mr-2">Detail</button>
-                            <button class="text-red-600 hover:text-red-900">Batal</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">#002</td>
-                        <td class="px-6 py-4 whitespace-nowrap">Perbaikan AC</td>
-                        <td class="px-6 py-4 whitespace-nowrap"><span
-                                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Selesai</span>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">2025-07-20</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button class="text-blue-600 hover:text-blue-900">Detail</button>
-                        </td>
-                    </tr>
+                    @foreach ($orders as $d)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">#{{ str_pad($d->id, 5, '0', STR_PAD_LEFT) }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->user->name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @php
+                                    $statusClass = match ($d->status) {
+                                        'menunggu_konfirmasi' => 'bg-yellow-100 text-yellow-800',
+                                        'diproses' => 'bg-blue-100 text-blue-800',
+                                        'selesai' => 'bg-green-100 text-green-800',
+                                        'dibatalkan' => 'bg-red-100 text-red-800',
+                                        default => 'bg-gray-100 text-gray-800',
+                                    };
+                                @endphp
+                                <span
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
+                                    {{ ucfirst(str_replace('_', ' ', $d->status)) }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->created_at->format('Y-m-d') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a href="{{ route('costumer.order_detail', $d->id) }}" class="text-blue-600 hover:text-blue-900 mr-2">Detail</a>
+                                @if ($d->status === 'menunggu_konfirmasi')
+                                    <button class="text-red-600 hover:text-red-900">Batal</button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    @if ($orders->isEmpty())
+                        <tr>
+                            <td colspan="5" class="text-center py-4">Tidak ada pesanan yang ditemukan.</td>
+                        </tr>
+                    @endif
                 </tbody>
             </table>
         </div>
