@@ -69,11 +69,13 @@ Route::middleware(['auth', 'authrole:teknisi'])->prefix('teknisi')->name('teknis
     Route::get('/incoming-orders', [ServicesController::class, 'incomingOrders'])->name('incoming_orders');
     Route::get('/my-orders', [ServicesController::class, 'myOrders'])->name('my_orders');
     Route::get('/show/{id}', [ServicesController::class, 'show'])->name('show');
+    Route::get('/take/{id}', [ServicesController::class, 'takeOrder'])->name('take');
 });
 
 // Pelanggan Routes (Contoh, sesuaikan jika sudah ada)
 Route::middleware(['auth', 'authrole:pelanggan'])->prefix('costumer')->name('costumer.')->group(function () {
-    Route::get('/make-an-order', [CostumerController::class, 'index'])->name('make_an_order');
-    Route::post('/make-an-order', [CostumerController::class, 'store'])->name('store_order');
-    Route::get('/order-history', [CostumerController::class, 'orderHistory'])->name('order_history');
+    Route::get('/make_an_order', [CostumerController::class, 'index'])->name('make_an_order');
+    Route::post('/make_an_order', [CostumerController::class, 'store'])->name('store_order');
+    Route::get('/order_history', [CostumerController::class, 'orderHistory'])->name('order_history');
+    Route::get('/order_detail/{id}', [CostumerController::class, 'show'])->name('order_detail');
 });
