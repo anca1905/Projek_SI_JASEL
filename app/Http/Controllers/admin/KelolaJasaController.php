@@ -80,6 +80,8 @@ class KelolaJasaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $service = ManageServices::findOrFail($id);
+        $service->delete();
+        return redirect()->route('admin.adminkelola_jasa.index')->with('success', 'Jasa berhasil dihapus.');
     }
 }
