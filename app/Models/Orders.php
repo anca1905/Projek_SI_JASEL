@@ -17,6 +17,24 @@ class Orders extends Model
         static::addGlobalScope(new OrderScopes);
     }
 
+    public function scopeCountOrders($query)
+    {
+        return $query->withoutGlobalScopes()
+            ->where('status', 'menunggu_konfirmasi')
+            ->orWhere(function ($q) {
+                $q->where('created_at', '>=', now()->subDay())
+                    ->where('status', '!=', 'selesai')
+                    ->whereNotNull('teknisi_id');
+            })
+            ->get()
+            ->count();
+    }
+
+    public function scopeServiceCount($query)
+    {
+        return $query->withoutGlobalScopes()->where('teknisi_id', '!=', null)->get()->unique('teknisi_id')->count();
+    }
+
     protected $fillable = [
         'user_id',
         'service_type',

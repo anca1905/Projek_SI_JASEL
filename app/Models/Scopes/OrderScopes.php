@@ -15,4 +15,5 @@ class OrderScopes implements Scope
     {
         $builder->where('status', 'menunggu_konfirmasi');
     }
+
 }
