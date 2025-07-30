@@ -5,6 +5,7 @@ namespace App\Http\Controllers\costumer;
 use App\Http\Controllers\Controller;
 use App\Models\ManageServices;
 use App\Models\Orders;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CostumerController extends Controller
@@ -15,18 +16,17 @@ class CostumerController extends Controller
     public function index()
     {
         $data = ManageServices::all();
-        return view('costumer.make_an_order', compact('data'));
+        $orders = Orders::withoutGlobalScopes()->where('user_id', auth()->id())->limit(3)->get();
+        return view('costumer.make_an_order', compact('data', 'orders'));
     }
 
     public function orderHistory()
     {
-        $orders = Orders::where('user_id', auth()->id())
+        $orders = Orders::withoutGlobalScopes()->where('user_id', auth()->id())
             ->with(['user', 'teknisi', 'manageService'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        if ($orders->isEmpty()) {
-            return redirect()->back()->with('error', 'No orders found.');
-        }
+
         return view('costumer.order_history', compact('orders'));
     }
 
@@ -61,7 +61,13 @@ class CostumerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Orders::with(['user', 'teknisi', 'manageService'])
+            ->withoutGlobalScopes()
+            ->findOrFail($id);
+
+        $teknisi = User::find($order->teknisi_id);
+
+        return view('costumer.show', compact('order', 'teknisi'));
     }
 
     /**
