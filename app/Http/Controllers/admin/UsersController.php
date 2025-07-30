@@ -78,7 +78,9 @@ class UsersController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('update', User::findOrFail($id));
         $user = User::find($id);
+
         if (!$user) {
             return redirect()->route('adminuser.index')->with('error', 'User tidak ditemukan!');
         }
@@ -101,7 +103,13 @@ class UsersController extends Controller
         } else {
             unset($data['password']);
         }
-        $data['role'] = $request->role;
+
+        if (!empty($request->role)) {
+            $data['role'] = $request->role;
+        } else {
+            unset($data['role']);
+        }
+        
         $find->update($data);
 
         return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil diperbarui!');
@@ -112,6 +120,7 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->authorize('delete', User::findOrFail($id));
         $data = User::find($id);
 
         if (!$data) {
