@@ -10,14 +10,19 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800">Daftar Pesanan Saya</h2>
 
             {{-- Filter/Search Form --}}
-            <form action="{{ route('teknisi.my_orders') }}" method="GET" class="mb-6 bg-gray-50 p-4 rounded-lg shadow-sm flex flex-wrap gap-4 items-end">
+            <form action="{{ route('teknisi.my_orders') }}" method="GET"
+                class="mb-6 bg-gray-50 p-4 rounded-lg shadow-sm flex flex-wrap gap-4 items-end">
                 <div>
                     <label for="status" class="block text-sm font-medium text-gray-700">Filter Status</label>
-                    <select name="status" id="status" class="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
+                    <select name="status" id="status"
+                        class="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
                         <option value="">Semua Status</option>
-                        <option value="dalam_proses" {{ request('status') == 'dalam_proses' ? 'selected' : '' }}>Dalam Proses</option>
+                        <option value="dalam_proses" {{ request('status') == 'dalam_proses' ? 'selected' : '' }}>Dalam
+                            Proses</option>
                         <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                        <option value="dibatalkan_teknisi" {{ request('status') == 'dibatalkan_teknisi' ? 'selected' : '' }}>Dibatalkan (Oleh Saya)</option>
+                        <option value="dibatalkan_teknisi"
+                            {{ request('status') == 'dibatalkan_teknisi' ? 'selected' : '' }}>Dibatalkan (Oleh Saya)
+                        </option>
                     </select>
                 </div>
                 <div>
@@ -25,7 +30,8 @@
                         Filter
                     </button>
                     @if (request('status'))
-                        <a href="{{ route('teknisi.my_orders') }}" class="text-sm text-blue-500 hover:underline ml-2">Reset</a>
+                        <a href="{{ route('teknisi.my_orders') }}"
+                            class="text-sm text-blue-500 hover:underline ml-2">Reset</a>
                     @endif
                 </div>
             </form>
@@ -35,52 +41,52 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Pesanan
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID
+                                Pesanan
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelanggan
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Pelanggan
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jasa</th>
-                            <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jasa
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Ditugaskan
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status
                             </th>
                             <th scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Tanggal Ditugaskan
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         {{-- Contoh data statis. Ganti dengan @foreach loop dari controller --}}
                         {{-- @forelse($myOrders as $order) --}}
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">#002</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Dewi Lestari</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Perbaikan AC</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Dalam Proses</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">2025-07-26</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-green-600 hover:text-green-900 mr-2">Selesai</button>
-                                <button class="text-red-600 hover:text-red-900 mr-2">Batalkan</button>
-                                <a href="#" class="text-gray-600 hover:text-gray-900">Detail</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">#004</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Rudi Hartono</td>
-                            <td class="px-6 py-4 whitespace-nowrap">Instalasi Jaringan</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Selesai</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">2025-07-24</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <a href="#" class="text-gray-600 hover:text-gray-900">Detail</a>
-                            </td>
-                        </tr>
+                        @foreach ($orders as $order)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->id }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->user->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->manageService->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $order->status == 'selesai' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' }}">
+                                        {{ ucfirst($order->status) }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->created_at->format('Y-m-d') }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">2025-07-26</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                    <button class="text-green-600 hover:text-green-900 mr-2">Selesai</button>
+                                    <button class="text-red-600 hover:text-red-900 mr-2">Batalkan</button>
+                                    <a href="{{ route('teknisi.show', $order->id) }}" class="text-gray-600 hover:text-gray-900">Detail</a>
+                                </td>
+                            </tr>
+                        @endforeach
                         {{-- @empty
                             <tr>
                                 <td colspan="6" class="px-6 py-4 text-center text-gray-500">Belum ada pesanan yang ditugaskan kepada Anda.</td>

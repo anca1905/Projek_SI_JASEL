@@ -67,7 +67,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $d->appointment_date }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="text-indigo-600 hover:text-indigo-900 mr-2">Ambil</button>
+                                <a href="{{ route('teknisi.take', $d->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Ambil</a>
                                 <a href="{{ route('teknisi.show', $d->id) }}" class="text-gray-600 hover:text-gray-900">Detail</a>
                             </td>
                         </tr>

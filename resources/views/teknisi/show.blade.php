@@ -19,13 +19,13 @@
                     <span class="block">{{ $order->manageService->name }}</span>
                     </p>
                     <p class="text-gray-700"><strong>Status:</strong> <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">{{ $order->status }}</span></p>
-                    <p class="text-gray-700"><strong>Teknisi Ditugaskan:</strong> {{ $order->technician->name ?? 'Belum Ditugaskan' }}</p>
+                    <p class="text-gray-700"><strong>Teknisi Ditugaskan:</strong> {{ $order->teknisi_id->name ?? 'Belum Ditugaskan' }}</p>
                     <p class="text-gray-700"><strong>Tanggal Pesanan:</strong> {{ $order->created_at->format('d M Y H:i') }}</p>
                 </div>
             </div>
 
             <div class="mt-6">
-                <a href="{{ route('teknisi.incoming_orders') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Kembali</a>
+                <a href="{{ route('teknisi.my_orders') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Kembali</a>
                 {{-- Tombol untuk Edit/Tugaskan langsung dari sini jika diperlukan --}}
             </div>
         </div>
