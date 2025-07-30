@@ -22,7 +22,7 @@
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-2 text-gray-700">Teknisi Aktif</h3>
-                <p class="text-4xl font-bold text-purple-600">12</p>
+                <p class="text-4xl font-bold text-purple-600">{{ $services }}</p>
                 <p class="text-sm text-gray-500">Saat Ini</p>
             </div>
         </div>

@@ -25,7 +25,7 @@
             </div>
 
             <div class="mt-6">
-                <a href="{{ route('teknisi.my_orders') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Kembali</a>
+                <a href="{{ route('costumer.order_history') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">Kembali</a>
                 {{-- Tombol untuk Edit/Tugaskan langsung dari sini jika diperlukan --}}
             </div>
         </div>

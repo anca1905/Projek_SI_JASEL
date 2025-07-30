@@ -6,15 +6,15 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-2">Total Pesanan</h3>
-                <p class="text-3xl font-bold text-blue-600">125</p>
+                <p class="text-3xl font-bold text-blue-600">{{ $total }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-2">Pesanan Baru</h3>
-                <p class="text-3xl font-bold text-green-600">15</p>
+                <p class="text-3xl font-bold text-green-600">{{ $newOrdersCount }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold mb-2">Teknisi Aktif</h3>
-                <p class="text-3xl font-bold text-purple-600">8</p>
+                <p class="text-3xl font-bold text-purple-600">{{ $teknisiCount }}</p>
             </div>
         </div>
 
