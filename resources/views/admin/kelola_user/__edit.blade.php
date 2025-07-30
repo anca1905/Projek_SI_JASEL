@@ -32,23 +32,25 @@
 
                 <div class="mb-4">
                     <label class="block text-sm font-medium">Password (Kosongkan jika tidak diubah)</label>
-                    <input type="password" name="password" class="w-full mt-1 p-2 border border-gray-300 rounded" >
+                    <input type="password" name="password" class="w-full mt-1 p-2 border border-gray-300 rounded">
                     @error('password')
                         <small class="text-red-600">{{ $message }}</small>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Role</label>
-                    <select name="role" class="w-full mt-1 p-2 border border-gray-300 rounded">
-                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="teknisi" {{ $user->role == 'teknisi' ? 'selected' : '' }}>Teknisi</option>
-                        <option value="pelanggan" {{ $user->role == 'pelanggan' ? 'selected' : '' }}>Pelanggan</option>
-                    </select>
-                    @error('role')
-                        <small class="text-red-600">{{ $message }}</small>
-                    @enderror
-                </div>
+                @can('role', $user)
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium">Role</label>
+                        <select name="role" class="w-full mt-1 p-2 border border-gray-300 rounded">
+                            <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                            <option value="teknisi" {{ $user->role == 'teknisi' ? 'selected' : '' }}>Teknisi</option>
+                            <option value="pelanggan" {{ $user->role == 'pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                        </select>
+                        @error('role')
+                            <small class="text-red-600">{{ $message }}</small>
+                        @enderror
+                    </div>
+                @endcan
 
                 <div class="flex justify-between">
                     <a href="{{ route('admin.adminuser.index') }}" class="text-gray-600 hover:underline">Kembali</a>

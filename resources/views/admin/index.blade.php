@@ -92,9 +92,9 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ $d->user->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $d->manageService->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap"><span
-                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">{{ $d->status }}</span>
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $d->status == 'dibatalkan' ? 'bg-red-100 text-red-800' : ($d->status == 'selesai' ? 'bg-green-100 text-green-800' : ($d->status == 'menunggu_konfirmasi' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800')) }}">{{ $d->status }}</span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">Belum Ditugaskan</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ $d->teknisi->name ?? 'Belum Ditugaskan' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $d->appointment_date }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                 <a href="{{ route('admin.admin.show', $d->id) }}"><button class="text-blue-600 hover:text-blue-900 mr-2">Detail</button></a>

@@ -49,7 +49,8 @@
                                 Saya</a>
                         </li>
                     @endif
-                    @if (Auth::user()->role == 'pelanggan')
+                    {{-- @if (Auth::user()->role == 'pelanggan') --}}
+                    @can('costumer')
                         <li class="mb-2">
                             <a href="{{ route('costumer.make_an_order') }}"
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('costumer/make_an_order') ? 'bg-gray-700' : '' }}">Buat
@@ -60,7 +61,8 @@
                                 class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out {{ request()->is('costumer/order_history') ? 'bg-gray-700' : '' }}">Riwayat
                                 Pesanan</a>
                         </li>
-                    @endif
+                    @endcan
+                    {{-- @endif --}}
                     <li class="mb-2">
                         <form action="{{ route('auth.logout') }}" method="post"
                             class="block py-2 px-4 rounded hover:bg-gray-700 transition duration-200 ease-in-out text-red-400">
