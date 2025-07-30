@@ -7,6 +7,7 @@ use App\Models\ManageServices;
 use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate as FacadesGate;
 
 class CostumerController extends Controller
 {
@@ -15,6 +16,9 @@ class CostumerController extends Controller
      */
     public function index()
     {
+        if (!FacadesGate::allows('costumer')) {
+            abort(403);
+        }
         $data = ManageServices::all();
         $orders = Orders::withoutGlobalScopes()->where('user_id', auth()->id())->limit(3)->get();
         return view('costumer.make_an_order', compact('data', 'orders'));
