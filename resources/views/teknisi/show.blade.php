@@ -22,8 +22,6 @@
                     <p class="text-gray-700"><strong>Status:</strong> <span
                             class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $order->status == 'selesai' ? 'bg-green-100 text-green-800' : ($order->status == 'diproses' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800') }}">{{ ucfirst($order->status) }}</span>
                     </p>
-                    <p class="text-gray-700"><strong>Teknisi Ditugaskan:</strong>
-                        {{ $order->teknisi_id->name ?? 'Belum Ditugaskan' }}</p>
                     <p class="text-gray-700"><strong>Tanggal Pesanan:</strong> {{ $order->created_at->format('d M Y H:i') }}
                     </p>
                 </div>

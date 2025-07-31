@@ -36,7 +36,7 @@
                         <option value="menunggu_konfirmasi" {{ request('status') == 'menunggu_konfirmasi' ? 'selected' : '' }}>Menunggu Konfirmasi</option>
                         <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
                         <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                        <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                        {{-- <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option> --}}
                     </select>
 
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded">
@@ -67,7 +67,7 @@
                         {{-- Contoh data pesanan. Anda akan mengganti ini dengan loop data dari controller --}}
                         @forelse ($orders as $order)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $order->user->name }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">#{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $order->manageService->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ Str::limit($order->device_problem, 50) }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -86,7 +86,7 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $order->created_at->format('Y-m-d') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a href="" class="text-blue-600 hover:text-blue-900 mr-2">Detail</a>
+                                    <a href="{{ route('costumer.order_detail', $order->id) }}" class="text-blue-600 hover:text-blue-900 mr-2">Detail</a>
                                     @if ($order->status == 'menunggu_konfirmasi')
                                         <form action="" method="POST" class="inline-block" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?');">
                                             @csrf
