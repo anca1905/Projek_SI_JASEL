@@ -70,6 +70,8 @@ Route::middleware(['auth', 'authrole:teknisi'])->prefix('teknisi')->name('teknis
     Route::get('/my-orders', [ServicesController::class, 'myOrders'])->name('my_orders');
     Route::get('/show/{id}', [ServicesController::class, 'show'])->name('show');
     Route::get('/take/{id}', [ServicesController::class, 'takeOrder'])->name('take');
+    Route::get('/complete/{id}', [ServicesController::class, 'complete'])->name('complete');
+    Route::get('/cancel/{id}',  [ServicesController::class, 'cancel'])->name('cancel');
 });
 
 // Pelanggan Routes (Contoh, sesuaikan jika sudah ada)
