@@ -24,9 +24,34 @@ class CostumerController extends Controller
         return view('costumer.make_an_order', compact('data', 'orders'));
     }
 
-    public function orderHistory()
+    public function orderHistory(Request $request)
     {
-        $orders = Orders::withoutGlobalScopes()->where('user_id', auth()->id())
+        // $orders = Orders::withoutGlobalScopes()->where('user_id', auth()->id())
+        //     ->with(['user', 'teknisi', 'manageService'])
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(10);
+
+        $query = Orders::query();
+
+        if ($request->has('search')) {
+            $cari = $request->search;
+
+            $id = ltrim(str_replace('#', '', $cari), '0');
+            $query->where(function ($q) use ($cari, $id) {
+                $q->whereHas('manageService', function ($q) use ($cari) {
+                    $q->where('name', 'like', '%' . $cari . '%');
+                });
+                $q->orWhere('device_problem', 'like', '%' . $cari . '%')->orWhere('id', 'like', '%' . $id . '%');
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+
+
+        $orders = $query->withoutGlobalScopes()->where('user_id', auth()->id())
             ->with(['user', 'teknisi', 'manageService'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
