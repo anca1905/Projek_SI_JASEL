@@ -1,6 +1,7 @@
 @extends('layout.app')
 
 @section('title', 'Detail Pesanan #' . $order->id)
+@section('nav', 'Admin Panel')
 
 @section('main')
     <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
