@@ -13,7 +13,7 @@ class OrderScopes implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->where('status', 'menunggu_konfirmasi');
+        $builder->where('status', 'menunggu_konfirmasi')->orWhere('status', 'dibatalkan');
     }
 
 }

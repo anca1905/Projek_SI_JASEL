@@ -35,6 +35,11 @@ class Orders extends Model
         return $query->withoutGlobalScopes()->where('teknisi_id', '!=', null)->get()->unique('teknisi_id')->count();
     }
 
+    public function scopeOrderStatus($query)
+    {
+        return $query->withoutGlobalScopes()->where('teknisi_id', auth()->user()->id)->where('status', '!=', 'menunggu_konfirmasi');
+    }
+
     protected $fillable = [
         'user_id',
         'service_type',
