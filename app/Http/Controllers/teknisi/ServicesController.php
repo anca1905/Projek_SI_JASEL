@@ -18,9 +18,20 @@ class ServicesController extends Controller
     //     return view('teknisi.index');
     // }
 
-    public function myOrders()
+    public function myOrders(Request $request)
     {
         $orders = Orders::orderStatus()->get();
+
+        if ($request->has('status')) {
+            $status = $request->status;
+            if ($status == 'diproses') {
+                $orders = $orders->where('status', 'diproses');
+            } elseif ($status == 'selesai') {
+                $orders = $orders->where('status', 'selesai');
+            } elseif ($status == 'dibatalkan_teknisi') {
+                $orders = $orders->where('status', 'menunggu_konfirmasi')->whereNotNull('teknisi_id');
+            }
+        }
         return view('teknisi.myOrders', compact('orders'));
     }
 

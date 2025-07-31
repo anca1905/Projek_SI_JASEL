@@ -40,6 +40,10 @@ class Orders extends Model
         return $query->withoutGlobalScopes()->where('teknisi_id', auth()->user()->id)->where('status', '!=', 'menunggu_konfirmasi');
     }
 
+    // public function scopeFilterOrders($query) {
+    //     return $query->withoutGlobalScopes()->filter
+    // }
+
     protected $fillable = [
         'user_id',
         'service_type',
