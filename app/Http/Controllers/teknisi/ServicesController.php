@@ -20,7 +20,7 @@ class ServicesController extends Controller
 
     public function myOrders()
     {
-        $orders = Orders::withoutGlobalScopes()->where('teknisi_id', auth()->user()->id)->get();
+        $orders = Orders::orderStatus()->get();
         return view('teknisi.myOrders', compact('orders'));
     }
 
@@ -33,11 +33,30 @@ class ServicesController extends Controller
     public function takeOrder($id)
     {
         $order = Orders::findOrFail($id);
-        $order->teknisi_id = auth()->user()->id; // Assign the teknisi's ID
-        $order->status = 'diproses'; // Update status to in progress
+        $order->teknisi_id = auth()->user()->id; 
+        $order->status = 'diproses'; 
         $order->save();
 
         return redirect()->route('teknisi.my_orders')->with('success', 'Order has been taken successfully.');
+    }
+
+    public function complete($id) {
+        $order = Orders::withoutGlobalScopes()->findOrFail($id);
+        $order->status = 'selesai'; 
+        $order->finish_time = now()->format('Y-m-d');
+        $order->save();
+
+        return redirect()->route('teknisi.my_orders')->with('success', 'Order has been marked as completed.');
+    }
+
+    public function cancel($id)
+    {
+        $order = Orders::withoutGlobalScopes()->findOrFail($id);
+        $order->status = 'menunggu_konfirmasi'; 
+        $order->teknisi_id = null; // Clear the technician assignment
+        $order->save();
+
+        return redirect()->route('teknisi.my_orders')->with('success', 'Order has been cancelled successfully.');
     }
 
     /**

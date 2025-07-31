@@ -17,12 +17,9 @@
                     <select name="status" id="status"
                         class="mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-300">
                         <option value="">Semua Status</option>
-                        <option value="dalam_proses" {{ request('status') == 'dalam_proses' ? 'selected' : '' }}>Dalam
+                        <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Dalam
                             Proses</option>
                         <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                        <option value="dibatalkan_teknisi"
-                            {{ request('status') == 'dibatalkan_teknisi' ? 'selected' : '' }}>Dibatalkan (Oleh Saya)
-                        </option>
                     </select>
                 </div>
                 <div>
@@ -74,16 +71,20 @@
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $order->manageService->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $order->status == 'selesai' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800' }}">
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $order->status == 'selesai' ? 'bg-green-100 text-green-800' : ( $order->status == 'diproses' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800' ) }}">
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $order->created_at->format('Y-m-d') }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">2025-07-26</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <button class="text-green-600 hover:text-green-900 mr-2">Selesai</button>
-                                    <button class="text-red-600 hover:text-red-900 mr-2">Batalkan</button>
-                                    <a href="{{ route('teknisi.show', $order->id) }}" class="text-gray-600 hover:text-gray-900">Detail</a>
+                                    @if ($order->status == 'diproses')
+                                        <a href="{{ route('teknisi.complete', $order->id) }}"
+                                            class="text-green-600 hover:text-green-900 mr-2">Selesai</a>
+                                        <a href="{{ route('teknisi.cancel', $order->id) }}"
+                                            class="text-red-600 hover:text-red-900 mr-2">Batalkan</a>
+                                    @endif
+                                    <a href="{{ route('teknisi.show', $order->id) }}"
+                                        class="text-gray-600 hover:text-gray-900">Detail</a>
                                 </td>
                             </tr>
                         @endforeach
