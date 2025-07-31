@@ -9,7 +9,8 @@ class ReportController extends Controller
     public function report(){
         // Logic for generating reports can be added here
         $services = Orders::serviceCount();
-        return view('admin.report.report', compact('services'));
+        $orderCount = Orders::withoutGlobalScopes()->where('status', 'selesai')->whereYear('finish_time', now()->year)->count();
+        return view('admin.report.report', compact('services', 'orderCount'));
     }
 
     public function orders(){
