@@ -87,15 +87,3 @@ Relasi ini digunakan ketika satu model dikaitkan dengan tepat satu catatan di mo
             * [Link ke `app/Http/Controllers/ProfileController.php` - method `show()` atau `edit()` (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/app/Http/Controllers/ProfileController.php#LXX)
         * Form untuk mengedit profil pengguna.
             * [Link ke `resources/views/user/profile.blade.php` - Form profil (Contoh)](https://github.com/USERNAME/REPO_NAME/blob/main/resources/views/user/profile.blade.php#LXX)
-
-### Cara Menggunakan Link (untuk Mentor Anda)
-
-Untuk menggunakan link di atas agar langsung mengarah ke kode spesifik di GitHub Anda, silakan:
-
-1.  **Ganti `USERNAME`** dengan nama pengguna GitHub Anda.
-2.  **Ganti `REPO_NAME`** dengan nama repositori proyek Anda.
-3.  **Ganti `LXX`** dengan nomor baris yang relevan di mana relasi atau penggunaannya didefinisikan dalam file kode Anda.
-
-Contoh: Jika Anda ingin menunjuk ke baris 50 di file `app/Models/User.php` dalam repositori `sistem-service-elektronik` milik user `johndoe`, linknya akan menjadi: `https://github.com/johndoe/sistem-service-elektronik/blob/main/app/Models/User.php#L50`
-
-Semoga penjelasan ini memberikan gambaran yang jelas mengenai implementasi Eloquent Relationships dalam proyek ini!
