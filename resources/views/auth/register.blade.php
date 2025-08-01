@@ -14,8 +14,7 @@
 
         {{-- Pesan Sukses/Error dari Session (jika ada) --}}
         @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
-                role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
                 <strong class="font-bold">Sukses!</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
@@ -62,14 +61,13 @@
             </div>
 
             <div class="mb-6">
-                <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Konfirmasi
-                    Password</label>
+                <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder="********">
-                    @error('password_confirmation')
-                        <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
-                    @enderror
+                @error('password_confirmation')
+                    <p class="text-red-500 text-xs italic mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="flex items-center justify-between">
@@ -78,11 +76,19 @@
                     Daftar
                 </button>
             </div>
-            <p class="text-center text-gray-600 text-xs mt-4">
-                Sudah punya akun? <a href="{{ route('auth.login') }}" class="text-blue-500 hover:text-blue-800">Login di
-                    sini</a>
-            </p>
         </form>
+
+        <div class="mt-4">
+            <a href="#"
+                class="flex items-center justify-center gap-2 bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-4 rounded w-full shadow">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="h-5 w-5" alt="Google">
+                Daftar dengan Google
+            </a>
+        </div>
+
+        <p class="text-center text-gray-600 text-xs mt-4">
+            Sudah punya akun? <a href="{{ route('auth.login') }}" class="text-blue-500 hover:text-blue-800">Login di sini</a>
+        </p>
     </div>
 </body>
 
