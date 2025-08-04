@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('device_problem');
             $table->dateTime('appointment_date')->nullable();
             $table->enum('status', ['pending', 'proses', 'selesai', 'batal'])->default('pending');
-            $table->year('finish_time')->default(date('Y'));
+            $table->date('finish_time')->default(date('Y-m-d'));
             $table->timestamps();
         });
     }
