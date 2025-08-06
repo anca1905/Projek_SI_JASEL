@@ -4,18 +4,18 @@ namespace App\Traits;
 
 trait AdminTraits
 {
-    public function isAdmin()
+    public function isAdmin($user)
     {
-        return $this->role === 'admin';
+        return $user->role === 'admin';
     }
 
     public function isTechnician($user)
     {
-        return $user->role === 'technician';
+        return $user->role === 'teknisi';
     }
 
-    public function isCustomer($user)
+    public function isCustomer()
     {
-        return $user->role === 'customer';
+        return $this->role === 'pelanggan';
     }
 }

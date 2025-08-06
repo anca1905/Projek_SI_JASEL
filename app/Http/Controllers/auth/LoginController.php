@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+
     public function index() {
         return view('auth.login');
     }
@@ -40,11 +40,12 @@ class LoginController extends Controller
         ];
 
         if (Auth::attempt($data)) {
+
             $user = Auth::user();
 
-            if ($user->role == "admin") {
+            if ($this->isAdmin($user) ) {
                 return redirect()->route('admin.admin.index');
-            } elseif ($user->role == 'teknisi') {
+            } elseif ($this->isTechnician($user)) {
                 return redirect()->route('teknisi.incoming_orders');
             } else {
                 return redirect()->route('costumer.make_an_order');
