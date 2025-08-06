@@ -43,9 +43,9 @@ class LoginController extends Controller
 
             $user = Auth::user();
 
-            if ($this->isAdmin($user) ) {
+            if ($user->role === 'admin') {
                 return redirect()->route('admin.admin.index');
-            } elseif ($this->isTechnician($user)) {
+            } elseif ($user->role === 'teknisi') {
                 return redirect()->route('teknisi.incoming_orders');
             } else {
                 return redirect()->route('costumer.make_an_order');
