@@ -8,6 +8,7 @@ use App\Models\Orders;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate as FacadesGate;
+use Illuminate\Support\Facades\Http;
 
 class CostumerController extends Controller
 {
@@ -59,6 +60,14 @@ class CostumerController extends Controller
         return view('costumer.order_history', compact('orders'));
     }
 
+    public function applyAsTeknisi()
+    {
+        $response = Http::get('https://wilayah.id/api/provinces.json');
+        $provinces = $response->json();
+
+        return view('costumer.apply_as_teknisi', compact('provinces'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -66,11 +75,10 @@ class CostumerController extends Controller
     {
         //
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeOrder(Request $request)
     {
 
         $data['user_id'] = auth()->id();
@@ -83,6 +91,11 @@ class CostumerController extends Controller
         Orders::create($data);
 
         return redirect()->route('costumer.order_history')->with('success', 'Order has been created successfully.');
+    }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
     }
 
     /**
