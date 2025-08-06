@@ -40,9 +40,19 @@ class Orders extends Model
         return $query->withoutGlobalScopes()->where('teknisi_id', auth()->user()->id)->where('status', '!=', 'menunggu_konfirmasi');
     }
 
-    // public function scopeFilterOrders($query) {
-    //     return $query->withoutGlobalScopes()->filter
-    // }
+    public function scopeTotal($query)
+    {
+        return $query->withoutGlobalScopes()->where('status', 'selesai')
+            ->orWhere('status', 'diproses');
+    }
+
+    public function scopeFilter($query, $cari)
+    {
+        return $query->where(function ($q) use ($cari) {
+                $q->where('name', 'like', '%' . $cari . '%')
+                    ->orWhere('email', 'like', '%' . $cari . '%');
+            });
+    }
 
     protected $fillable = [
         'user_id',
