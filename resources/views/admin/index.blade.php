@@ -106,7 +106,8 @@
                     @endforeach
 
                 </tbody> --}}
-                <tbody class="bg-white divide-y divide-gray-200" id="order-table-body" data-url="{{ route('admin.admin.index') }} " data-action="{{ route('admin.admin.show', [':id']) }}">
+                <tbody class="bg-white divide-y divide-gray-200" id="order-table-body"
+                    data-url="{{ route('admin.admin.index') }} " data-action="{{ route('admin.admin.show', [':id']) }}">
                     <!-- Data will be populated here by JavaScript -->
                 </tbody>
             </table>
@@ -114,6 +115,5 @@
     </main>
 @endsection
 @section('js')
-<script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/admin/dashboard.js') }}"></script>
 @endsection

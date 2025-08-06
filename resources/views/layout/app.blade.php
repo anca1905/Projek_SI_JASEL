@@ -75,6 +75,12 @@
                                     Riwayat Pesanan
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('costumer.apply_as_teknisi') }}"
+                                    class="block px-4 py-2 rounded hover:bg-gray-200 {{ request()->is('costumer/apply_as_teknisi') ? 'bg-gray-200 font-semibold text-green-700' : '' }}">
+                                    Ajukan Jadi Teknisi
+                                </a>
+                            </li>
                         @endcan
 
                         <li>
@@ -113,6 +119,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="{{ asset('js/jquery-3.7.1.min.js') }}"></script>
     @yield('js')
 </body>
 

@@ -1,0 +1,78 @@
+$(document).ready(function () {
+    // Handle form submission
+    $('#kabupaten-container').hide();
+    $('#kecamatan-container').hide();
+    $('#kelurahan-container').hide();
+
+    $('#province').on('change', function () {
+        var selectedProvince = $(this).val();
+        if (selectedProvince) {
+            $('#kabupaten-container').show();
+            // Fetch kabupaten data based on selected province
+            $.ajax({
+                url: '/api/wilayah/regencies/' + selectedProvince,
+                type: 'GET',
+                success: function (region) {
+                    console.log(region);
+                    const response = region.data;
+                    console.log("Kabupaten Data:", response); // debug data
+                    $('#kabupaten').empty();
+                    $('#kabupaten').append('<option value="">Pilih Kabupaten</option>');
+                    $.each(response, function (index, item) {
+                        $('#kabupaten').append('<option value="' + item.code + '">' + item.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#kabupaten-container').hide();
+        }
+    });
+
+    $('#kabupaten').on('change', function () {
+        var selectKecamatan = $(this).val();
+        if (selectKecamatan) {
+            $('#kecamatan-container').show();
+            // Fetch kecamatan data based on selected kabupaten
+            $.ajax({
+                url: '/api/wilayah/districts/' + selectKecamatan,
+                type: 'GET',
+                success: function (subdistrict) {
+                    console.log(subdistrict);
+                    const response = subdistrict.data;
+                    console.log("Kecamatan Data:", response); // debug data
+                    $('#kecamatan').empty();
+                    $('#kecamatan').append('<option value="">Pilih Kecamatan</option>');
+                    $.each(response, function (index, item) {
+                        $('#kecamatan').append('<option value="' + item.code + '">' + item.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#kecamatan-container').hide();
+        }
+    });
+
+    $('#kecamatan').on('change', function () {
+        var selectKelurahan = $(this).val();
+        if (selectKelurahan) {
+            $('#kelurahan-container').show();
+            // Fetch kelurahan data based on selected kabupaten
+            $.ajax({
+                url: '/api/wilayah/villages/' + selectKelurahan,
+                type: 'GET',
+                success: function (subdistrict) {
+                    console.log(subdistrict);
+                    const response = subdistrict.data;
+                    console.log("Kelurahan Data:", response); // debug data
+                    $('#kelurahan').empty();
+                    $('#kelurahan').append('<option value="">Pilih Kelurahan</option>');
+                    $.each(response, function (index, item) {
+                        $('#kelurahan').append('<option value="' + item.code + '">' + item.name + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#kelurahan-container').hide();
+        }
+    });
+});
