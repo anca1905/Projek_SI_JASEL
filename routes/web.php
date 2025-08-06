@@ -8,6 +8,7 @@ use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\teknisi\ServicesController;
 use App\Http\Controllers\admin\UsersController;
 use App\Http\Controllers\costumer\CostumerController;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +78,28 @@ Route::middleware(['auth', 'authrole:teknisi'])->prefix('teknisi')->name('teknis
 // Pelanggan Routes (Contoh, sesuaikan jika sudah ada)
 Route::middleware(['auth', 'authrole:pelanggan'])->prefix('costumer')->name('costumer.')->group(function () {
     Route::get('/make_an_order', [CostumerController::class, 'index'])->name('make_an_order');
-    Route::post('/make_an_order', [CostumerController::class, 'store'])->name('store_order');
+    Route::post('/make_an_order', [CostumerController::class, 'storeOrder'])->name('store_order');
     Route::get('/order_history', [CostumerController::class, 'orderHistory'])->name('order_history');
     Route::get('/order_detail/{id}', [CostumerController::class, 'show'])->name('order_detail');
+    Route::get('/apply_as_teknisi', [CostumerController::class, 'applyAsTeknisi'])->name('apply_as_teknisi');
+    Route::post('/apply_as_teknisi', [CostumerController::class, 'store'])->name('apply_as_teknisi.store');
 });
+
+Route::get('/api/wilayah/regencies/{kode}', function ($kode) {
+    $response = Http::get("https://wilayah.id/api/regencies/{$kode}.json");
+
+    return $response->json(); // simple response
+});
+
+Route::get('/api/wilayah/districts/{kode}', function ($kode) {
+    $response = Http::get("https://wilayah.id/api/districts/{$kode}.json");
+
+    return $response->json(); // simple response
+});
+
+Route::get('/api/wilayah/villages/{kode}', function ($kode) {
+    $response = Http::get("https://wilayah.id/api/villages/{$kode}.json");
+
+    return $response->json(); // simple response
+});
+
