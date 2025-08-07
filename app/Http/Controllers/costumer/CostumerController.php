@@ -68,6 +68,17 @@ class CostumerController extends Controller
         return view('costumer.apply_as_teknisi', compact('provinces'));
     }
 
+    public function pay($id)
+    {
+        $orders = Orders::withoutGlobalScopes()->findOrFail($id);
+
+        $orders->status = "selesai";
+
+        $orders->save();
+
+        return redirect()->route('costumer.order_history', compact('orders'))->with('success', 'Pembayaran Berhasil');
+    }
+
     /**
      * Show the form for creating a new resource.
      */
