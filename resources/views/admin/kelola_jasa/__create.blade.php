@@ -5,42 +5,46 @@
 @section('nav', 'Admin Panel')
 
 @section('main')
-    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
-        <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
-            <h2 class="text-2xl font-bold mb-4">Tambah Jasa Baru</h2>
+    <div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+        <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Tambah Jasa Baru</h2>
 
-            {{-- Form untuk menambahkan jasa --}}
-            {{-- Sesuaikan action dengan route Anda, contoh: route('adminservice.store') --}}
-            <form action="{{ route('admin.adminkelola_jasa.store') }}" method="POST">
+            <form action="{{ route('admin.adminkelola_jasa.store') }}" method="POST" class="space-y-6">
                 @csrf
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Nama Jasa</label>
-                    <input type="text" name="name" value="{{ old('name') }}"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded" >
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama Jasa</label>
+                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                     @error('name')
-                        <small class="text-red-600">{{ $message }}</small>
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Harga</label>
+                <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700 mb-1">Harga</label>
                     <input type="text" id="rupiah" name="price" value="{{ old('price') }}"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded" >
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                     @error('price')
-                        <small class="text-red-600">{{ $message }}</small>
+                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="flex justify-between mt-6">
-                    {{-- Sesuaikan href dengan route daftar jasa Anda, contoh: route('adminservice.index') --}}
-                    <a href="{{ route('admin.adminkelola_jasa.index') }}" class="text-gray-600 hover:underline">Kembali</a>
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
+                <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+                    <a href="{{ route('admin.adminkelola_jasa.index') }}"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
+                        Kembali
+                    </a>
+                    <button type="submit"
+                        class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                        Simpan Jasa
+                    </button>
                 </div>
             </form>
         </div>
-    </main>
+    </div>
 @endsection
+
 @section('js')
     <script src="{{ asset('js/admin/kelola_jasa/create.js') }}"></script>
 @endsection

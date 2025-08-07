@@ -1,60 +1,73 @@
 @extends('layout.app')
 
-@section('title', 'Tambah User')
+@section('title', 'Tambah Pengguna Baru')
 @section('nav', 'Admin Panel')
 
 @section('main')
-    <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
-        <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
-            <h2 class="text-2xl font-bold mb-4">Tambah User</h2>
+<div class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
+    <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6">Tambah Pengguna Baru</h2>
 
-            <form action="{{ route('admin.adminuser.store') }}" method="POST">
-                @csrf
+        <form action="{{ route('admin.adminuser.store') }}" method="POST" class="space-y-6">
+            @csrf
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Nama</label>
-                    <input type="text" name="name" value="{{ old('name') }}"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded">
-                    @error('name')
-                        <small class="text-red-600">{{ $message }}</small>
-                    @enderror
-                </div>
+            <!-- Name Field -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
+                <input type="text" id="name" name="name" value="{{ old('name') }}"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                @error('name')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}"
-                        class="w-full mt-1 p-2 border border-gray-300 rounded">
-                    @error('email')
-                        <small class="text-red-600">{{ $message }}</small>
-                    @enderror
-                </div>
+            <!-- Email Field -->
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                @error('email')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Password</label>
-                    <input type="password" name="password" class="w-full mt-1 p-2 border border-gray-300 rounded">
-                    @error('password')
-                        <small class="text-red-600">{{ $message }}</small>
-                    @enderror
-                </div>
+            <!-- Password Field -->
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input type="password" id="password" name="password"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                @error('password')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="mb-4">
-                    <label class="block text-sm font-medium">Role</label>
-                    <select name="role" class="w-full mt-1 p-2 border border-gray-300 rounded">
-                        <option value="">-- Pilih Role --</option>
-                        <option value="admin">Admin</option>
-                        <option value="teknisi">Teknisi</option>
-                    </select>
-                    @error('role')
-                        <small class="text-red-600">{{ $message }}</small>
-                    @enderror
-                </div>
+            <!-- Role Field -->
+            <div>
+                <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select id="role" name="role"
+                    class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                    <option value="">-- Pilih Role --</option>
+                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="teknisi" {{ old('role') == 'teknisi' ? 'selected' : '' }}>Teknisi</option>
+                    <option value="pelanggan" {{ old('role') == 'pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                </select>
+                @error('role')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="flex justify-between">
-                    <a href="{{ route('admin.adminuser.index') }}" class="text-gray-600 hover:underline">Kembali</a>
-                    <button type="submit"
-                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </main>
+            <!-- Action Buttons -->
+            <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+                <a href="{{ route('admin.adminuser.index') }}"
+                    class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
+                    Kembali
+                </a>
+                <button type="submit"
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                    Simpan Pengguna
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
