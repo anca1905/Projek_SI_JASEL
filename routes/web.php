@@ -83,6 +83,7 @@ Route::middleware(['auth', 'authrole:pelanggan'])->prefix('costumer')->name('cos
     Route::get('/order_detail/{id}', [CostumerController::class, 'show'])->name('order_detail');
     Route::get('/apply_as_teknisi', [CostumerController::class, 'applyAsTeknisi'])->name('apply_as_teknisi');
     Route::post('/apply_as_teknisi', [CostumerController::class, 'store'])->name('apply_as_teknisi.store');
+    Route::post('/pay/{id}', [CostumerController::class, 'pay'])->name('pay')->name('pay');
 });
 
 Route::get('/api/wilayah/regencies/{kode}', function ($kode) {
