@@ -1,14 +1,18 @@
 $(document).ready(function () {
-    // Handle form submission
+    console.log("Document ready, script jalan.");
+
+    const provinsi = $('#province');
+    console.log("Provinsi select found:", provinsi.length);
     $('#kabupaten-container').hide();
     $('#kecamatan-container').hide();
     $('#kelurahan-container').hide();
 
     $('#province').on('change', function () {
         var selectedProvince = $(this).val();
+
+        console.log(selectedProvince);
         if (selectedProvince) {
             $('#kabupaten-container').show();
-            // Fetch kabupaten data based on selected province
             $.ajax({
                 url: '/api/wilayah/regencies/' + selectedProvince,
                 type: 'GET',
@@ -34,7 +38,7 @@ $(document).ready(function () {
             $('#kecamatan-container').show();
             // Fetch kecamatan data based on selected kabupaten
             $.ajax({
-                url: '/api/wilayah/districts/' + selectKecamatan,
+                url: '/api/wilayah/districts/{kode}' + selectKecamatan,
                 type: 'GET',
                 success: function (subdistrict) {
                     console.log(subdistrict);
@@ -68,7 +72,7 @@ $(document).ready(function () {
                     $('#kelurahan').append('<option value="">Pilih Kelurahan</option>');
                     $.each(response, function (index, item) {
                         $('#kelurahan').append('<option value="' + item.code + '">' + item.name + '</option>');
-                    });
+                    }); 
                 }
             });
         } else {

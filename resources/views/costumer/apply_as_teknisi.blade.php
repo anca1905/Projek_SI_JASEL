@@ -11,35 +11,8 @@
                     <h3 class="text-3xl font-bold text-gray-800 mb-2">Ajukan Jadi Teknisi</h3>
                     <p class="text-gray-500">Isi formulir ini untuk mengajukan diri sebagai teknisi.</p>
                 </div>
-
-                {{-- Alert Sections (using SweetAlert2 for consistency) --}}
-                @section('js')
-                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    @if (session('success'))
-                        <script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil!',
-                                text: '{{ session('success') }}',
-                                timer: 2500,
-                                showConfirmButton: false
-                            });
-                        </script>
-                    @endif
-                    @if (session('error'))
-                        <script>
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal!',
-                                text: '{{ session('error') }}',
-                                timer: 2500,
-                                showConfirmButton: false
-                            });
-                        </script>
-                    @endif
-                @endsection
-
-                <form action="{{ route('costumer.apply_as_teknisi.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                <form action="{{ route('costumer.apply_as_teknisi.store') }}" method="POST" enctype="multipart/form-data"
+                    class="space-y-6">
                     @csrf
                     <p class="text-gray-600">
                         Permohonan Anda akan ditinjau oleh tim admin. Pastikan data yang Anda masukkan akurat.
@@ -56,7 +29,7 @@
                             @endforeach
                         </select>
                         {{-- @error('province') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Provinsi wajib diisi.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Provinsi wajib diisi.</p>
                         {{-- @enderror --}}
                     </div>
 
@@ -85,7 +58,7 @@
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                             placeholder="Masukkan nomor telepon aktif">
                         {{-- @error('phone_number') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Nomor telepon wajib diisi.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Nomor telepon wajib diisi.</p>
                         {{-- @enderror --}}
                     </div>
 
@@ -95,7 +68,7 @@
                             class="block w-full text-gray-700 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
                         <p class="text-xs text-gray-500 mt-1">Format file: PDF, DOCX (Max 2MB)</p>
                         {{-- @error('resume') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">File resume wajib diunggah.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">File resume wajib diunggah.</p>
                         {{-- @enderror --}}
                     </div>
 
@@ -105,13 +78,13 @@
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                             placeholder="Jelaskan mengapa Anda ingin menjadi teknisi dan keahlian yang Anda miliki.">{{ old('reason') }}</textarea>
                         {{-- @error('reason') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Alasan pengajuan minimal 10 karakter.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Alasan pengajuan minimal 10 karakter.</p>
                         {{-- @enderror --}}
                     </div>
 
                     <div class="pt-2">
                         <button type="submit"
-                            class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-200">
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-200">
                             <i class="fas fa-paper-plane mr-2"></i> Kirim Pengajuan
                         </button>
                     </div>
@@ -121,12 +94,27 @@
     </main>
 @endsection
 @section('js')
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
     <script src="{{ asset('js/costumer/apply_as_teknisi.js') }}"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-    </style>
 @endsection
