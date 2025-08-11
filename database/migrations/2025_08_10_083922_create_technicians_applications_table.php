@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('resume_path');
             $table->text('reason');
-            $table->enum('status', ['pending', 'ditolak', 'disetujui'])->default('pending');
+            $table->enum('status', ['pending', 'disetujui'])->default('pending');
             $table->timestamps();
         });
     }
