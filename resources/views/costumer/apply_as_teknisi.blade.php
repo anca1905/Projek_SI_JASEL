@@ -25,7 +25,7 @@
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
                             <option value="">Pilih Provinsi</option>
                             @foreach ($provinces['data'] as $province)
-                                <option value="{{ $province['code'] }}">{{ $province['name'] }}</option>
+                                <option data-code="{{ $province['code'] }}" value="{{ $province['name'] }}">{{ $province['name'] }}</option>
                             @endforeach
                         </select>
                         {{-- @error('province') --}}
