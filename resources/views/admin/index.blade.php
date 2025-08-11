@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('title', 'Selamat Datang, Admin!')
+@section('title', 'Selamat Datang, '. $user->name .'!')
 @section('nav', 'Admin Panel')
 
 @section('main')
