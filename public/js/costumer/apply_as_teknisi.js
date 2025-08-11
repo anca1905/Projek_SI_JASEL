@@ -8,7 +8,8 @@ $(document).ready(function () {
     $('#kelurahan-container').hide();
 
     $('#province').on('change', function () {
-        var selectedProvince = $(this).val();
+
+        var selectedProvince = $(this).find(':selected').data('code');
 
         console.log(selectedProvince);
         if (selectedProvince) {
@@ -23,7 +24,7 @@ $(document).ready(function () {
                     $('#kabupaten').empty();
                     $('#kabupaten').append('<option value="">Pilih Kabupaten</option>');
                     $.each(response, function (index, item) {
-                        $('#kabupaten').append('<option value="' + item.code + '">' + item.name + '</option>');
+                        $('#kabupaten').append('<option data-code="' + item.code + '" value="' + item.name + '">' + item.name + '</option>');
                     });
                 }
             });
@@ -33,7 +34,7 @@ $(document).ready(function () {
     });
 
     $('#kabupaten').on('change', function () {
-        var selectKecamatan = $(this).val();
+        var selectKecamatan = $(this).find(':selected').data('code');
         if (selectKecamatan) {
             $('#kecamatan-container').show();
             // Fetch kecamatan data based on selected kabupaten
@@ -47,7 +48,7 @@ $(document).ready(function () {
                     $('#kecamatan').empty();
                     $('#kecamatan').append('<option value="">Pilih Kecamatan</option>');
                     $.each(response, function (index, item) {
-                        $('#kecamatan').append('<option value="' + item.code + '">' + item.name + '</option>');
+                        $('#kecamatan').append('<option data-code="' + item.code + '" value="' + item.name + '">' + item.name + '</option>');
                     });
                 }
             });
@@ -57,7 +58,7 @@ $(document).ready(function () {
     });
 
     $('#kecamatan').on('change', function () {
-        var selectKelurahan = $(this).val();
+        var selectKelurahan = $(this).find(':selected').data('code');
         if (selectKelurahan) {
             $('#kelurahan-container').show();
             // Fetch kelurahan data based on selected kabupaten
@@ -71,7 +72,7 @@ $(document).ready(function () {
                     $('#kelurahan').empty();
                     $('#kelurahan').append('<option value="">Pilih Kelurahan</option>');
                     $.each(response, function (index, item) {
-                        $('#kelurahan').append('<option value="' + item.code + '">' + item.name + '</option>');
+                        $('#kelurahan').append('<option data-code="' + item.code + '" value="' + item.name + '">' + item.name + '</option>');
                     }); 
                 }
             });
