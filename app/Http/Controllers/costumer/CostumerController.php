@@ -5,6 +5,7 @@ namespace App\Http\Controllers\costumer;
 use App\Http\Controllers\Controller;
 use App\Models\ManageServices;
 use App\Models\Orders;
+use Illuminate\Support\Facades\Gate;
 use App\Models\techniciansApplications;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ class CostumerController extends Controller
         if (!FacadesGate::allows('costumer')) {
             abort(403);
         }
+
         $data = ManageServices::all();
         $orders = Orders::withoutGlobalScopes()->where('user_id', auth()->id())->limit(3)->get();
         return view('costumer.make_an_order', compact('data', 'orders'));
@@ -63,6 +65,10 @@ class CostumerController extends Controller
 
     public function applyAsTeknisi()
     {
+        if (Gate::denies('apply')) {
+            return redirect()->route('costumer.make_an_order')->with('error', 'Anda sudah mengajukan.');
+        }
+
         $response = Http::get('https://wilayah.id/api/provinces.json');
         $provinces = $response->json();
 
