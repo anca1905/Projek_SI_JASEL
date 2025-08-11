@@ -63,6 +63,9 @@ Route::middleware(['auth', 'authrole:admin'])->prefix('admin')->name('admin.')->
         Route::get('/technicians', [ReportController::class, 'technicians'])->name('technicians');
         Route::get('/popular-services', [ReportController::class, 'popularServices'])->name('popular_services');
     });
+
+    Route::get('/application', [AdminController::class, 'application'])->name('application');
+    Route::get('/show_application/{id}', [AdminController::class, 'show_application'])->name('show_application');
 });
 
 // Teknisi Routes
