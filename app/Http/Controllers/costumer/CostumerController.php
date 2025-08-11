@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\techniciansApplications;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Traits\CustomerTraits;
 use Illuminate\Support\Facades\Gate as FacadesGate;
 use Illuminate\Support\Facades\Http;
 
 class CostumerController extends Controller
 {
+    use CustomerTraits;
     /**
      * Display a listing of the resource.
      */
@@ -71,6 +73,7 @@ class CostumerController extends Controller
 
         $response = Http::get('https://wilayah.id/api/provinces.json');
         $provinces = $response->json();
+        $data = techniciansApplications::all();
 
         return view('costumer.apply_as_teknisi', compact('provinces'));
     }
@@ -120,10 +123,7 @@ class CostumerController extends Controller
         $data['subdistrict_code'] = $request->kecamatan;
         $data['village_code'] = $request->kelurahan;
         $data['phone_number'] = $request->phone_number;
-
-        $file = $request->file('resume');
-        $fileName = date('Y-m-d') . $file->getClientOriginalName();
-        $file->storeAs('CV', $fileName);
+        $fileName = $this->uploadCv($request);
         $data['resume_path'] = $fileName;
 
         $data['reason'] = $request->reason;
@@ -145,7 +145,6 @@ class CostumerController extends Controller
 
         return view('costumer.show', compact('order', 'teknisi'));
     }
-
     /**
      * Show the form for editing the specified resource.
      */
