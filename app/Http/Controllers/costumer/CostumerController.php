@@ -5,6 +5,7 @@ namespace App\Http\Controllers\costumer;
 use App\Http\Controllers\Controller;
 use App\Models\ManageServices;
 use App\Models\Orders;
+use App\Models\techniciansApplications;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate as FacadesGate;
@@ -106,7 +107,23 @@ class CostumerController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+
+        $data['user_id'] = auth()->id();
+        $data['province_code'] = $request->province;
+        $data['regency_code'] = $request->kabupaten;
+        $data['subdistrict_code'] = $request->kecamatan;
+        $data['village_code'] = $request->kelurahan;
+        $data['phone_number'] = $request->phone_number;
+
+        $file = $request->file('resume');
+        $fileName = date('Y-m-d') . $file->getClientOriginalName();
+        $file->storeAs('CV', $fileName);
+        $data['resume_path'] = $fileName;
+
+        $data['reason'] = $request->reason;
+
+        techniciansApplications::create($data);
+        return redirect()->route('costumer.make_an_order')->with('success', 'Pengajuan berhasil di kirim');
     }
 
     /**
