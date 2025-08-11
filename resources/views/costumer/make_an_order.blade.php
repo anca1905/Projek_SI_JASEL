@@ -21,22 +21,24 @@
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
                             <option value="">Pilih Jenis Jasa</option>
                             @foreach ($data as $service)
-                                <option value="{{ $service->id }}" {{ old('service_type') == $service->id ? 'selected' : '' }}>
+                                <option value="{{ $service->id }}"
+                                    {{ old('service_type') == $service->id ? 'selected' : '' }}>
                                     {{ $service->name }}</option>
                             @endforeach
                         </select>
                         {{-- @error('service_type') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Jenis jasa wajib dipilih.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Jenis jasa wajib dipilih.</p>
                         {{-- @enderror --}}
                     </div>
 
                     <div>
-                        <label for="device_problem" class="block text-gray-700 text-sm font-medium mb-1">Deskripsi Masalah</label>
+                        <label for="device_problem" class="block text-gray-700 text-sm font-medium mb-1">Deskripsi
+                            Masalah</label>
                         <textarea id="device_problem" name="device_problem" rows="4"
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                             placeholder="Jelaskan masalah perangkat Anda secara detail...">{{ old('device_problem') }}</textarea>
                         {{-- @error('device_problem') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Deskripsi masalah minimal 10 karakter.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Deskripsi masalah minimal 10 karakter.</p>
                         {{-- @enderror --}}
                     </div>
 
@@ -46,16 +48,18 @@
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                             placeholder="Masukkan alamat lengkap Anda">
                         {{-- @error('address') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Alamat lengkap wajib diisi.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Alamat lengkap wajib diisi.</p>
                         {{-- @enderror --}}
                     </div>
 
                     <div>
-                        <label for="appointment_date" class="block text-gray-700 text-sm font-medium mb-1">Tanggal Janji Temu</label>
-                        <input type="date" id="appointment_date" name="appointment_date" value="{{ old('appointment_date') }}"
+                        <label for="appointment_date" class="block text-gray-700 text-sm font-medium mb-1">Tanggal Janji
+                            Temu</label>
+                        <input type="date" id="appointment_date" name="appointment_date"
+                            value="{{ old('appointment_date') }}"
                             class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200">
                         {{-- @error('appointment_date') --}}
-                            <p class="text-red-500 text-xs italic mt-1 hidden">Tanggal janji temu tidak boleh di masa lalu.</p>
+                        <p class="text-red-500 text-xs italic mt-1 hidden">Tanggal janji temu tidak boleh di masa lalu.</p>
                         {{-- @enderror --}}
                     </div>
 
@@ -76,21 +80,27 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">ID Pesanan</th>
+                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    ID Pesanan</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Jasa</th>
+                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Jasa</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Status</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal</th>
+                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Tanggal</th>
                                 <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Aksi</th>
+                                    class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($orders as $d)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">#{{ str_pad($d->id, 5, '0', STR_PAD_LEFT) }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        #{{ str_pad($d->id, 5, '0', STR_PAD_LEFT) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $d->user->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         @php
@@ -102,22 +112,27 @@
                                                 default => 'bg-gray-100 text-gray-800',
                                             };
                                         @endphp
-                                        <span class="px-3 py-1 inline-flex text-xs font-semibold rounded-full {{ $statusClass }}">
+                                        <span
+                                            class="px-3 py-1 inline-flex text-xs font-semibold rounded-full {{ $statusClass }}">
                                             {{ ucfirst(str_replace('_', ' ', $d->status)) }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $d->created_at->format('Y-m-d') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $d->created_at->format('Y-m-d') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('costumer.order_detail', $d->id) }}" class="text-blue-600 hover:text-blue-900 mr-4">Detail</a>
+                                        <a href="{{ route('costumer.order_detail', $d->id) }}"
+                                            class="text-blue-600 hover:text-blue-900 mr-4">Detail</a>
                                         @if ($d->status === 'menunggu_konfirmasi')
-                                            <button class="text-red-600 hover:text-red-900 focus:outline-none">Batal</button>
+                                            <button
+                                                class="text-red-600 hover:text-red-900 focus:outline-none">Batal</button>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                             @if ($orders->isEmpty())
                                 <tr>
-                                    <td colspan="5" class="text-center py-4 text-gray-500">Tidak ada pesanan yang ditemukan.</td>
+                                    <td colspan="5" class="text-center py-4 text-gray-500">Tidak ada pesanan yang
+                                        ditemukan.</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -132,8 +147,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
         body {
             font-family: 'Poppins', sans-serif;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('failed'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: '{{ session('failed') }}',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '{{ session('success') }}',
+                text: 'Silahkan anda menunggu konfirmasi dari kami selama 1x24 jam',
+                timer: 2500,
+                showConfirmButton: false
+            });
+        </script>
+    @endif
 @endsection
