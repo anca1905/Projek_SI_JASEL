@@ -29,7 +29,7 @@ Route::post('/register', [LoginController::class, 'store'])->name('auth.register
 Route::post('/logout', [LoginController::class, 'logout'])->name('auth.logout');
 
 // Admin Routes
-Route::middleware(['auth', 'authrole:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth:web', 'authrole:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/show/{id}', [AdminController::class, 'show'])->name('admin.show');
 
