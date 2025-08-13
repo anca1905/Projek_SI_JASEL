@@ -39,10 +39,10 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
 
-        if (Auth::attempt($data)) {
+        if (Auth::guard('web')->attempt($data)) {
 
-            $user = Auth::user();
-
+            $user = Auth::guard('web')->user();
+            
             if ($user->role === 'admin') {
                 return redirect()->route('admin.admin.index');
             } elseif ($user->role === 'teknisi') {
