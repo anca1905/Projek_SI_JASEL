@@ -52,7 +52,7 @@
                     <label for="filter_status" class="block text-sm font-medium text-gray-700 mb-1">Filter
                         Status:</label>
                     <select id="filter_status" name="filter_status" onchange="applyFilters()"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                        class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                         <option value="all" {{ request('status') == 'all' ? 'selected' : '' }}>Semua Status</option>
                         <option value="Menunggu Konfirmasi" {{ request('status') == 'Menunggu Konfirmasi' ? 'selected' : '' }}>
                             Menunggu Konfirmasi</option>
@@ -65,7 +65,7 @@
                     <label for="filter_technician" class="block text-sm font-medium text-gray-700 mb-1">Filter
                         Teknisi:</label>
                     <select id="filter_technician" name="filter_technician" onchange="applyFilters()"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
+                        class="mt-1 p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                         <option value="all" {{ request('technician') == 'all' ? 'selected' : '' }}>Semua Teknisi</option>
                         <option value="1" {{ request('technician') == '1' ? 'selected' : '' }}>Teknisi A</option>
                         <option value="2" {{ request('technician') == '2' ? 'selected' : '' }}>Teknisi B</option>
