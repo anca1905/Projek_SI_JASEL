@@ -1,6 +1,9 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\API\v1\AuthController as AuthControllerV1;
+use App\Http\Controllers\API\v2\AuthController as AuthControllerV2;
+use App\Http\Controllers\API\v1\UserController as UserControllerV1;
+use App\Http\Controllers\API\v2\UserController as UserControllerV2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,17 +22,34 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
 Route::group([
 
     'middleware' => 'api',
-    'prefix' => 'auth'
+    'prefix' => 'v1/auth'
 
 ], function ($router) {
+    Route::post('login', [AuthControllerV1::class, 'login']);
+    Route::post('register', [AuthControllerV1::class, 'register']);
+    Route::post('logout', [AuthControllerV1::class, 'logout']);
+    Route::post('refresh', [AuthControllerV1::class, 'refresh']);
+    Route::post('me', [AuthControllerV1::class, 'me']);
+    Route::get('index', [UserControllerV1::class, 'index']);
+});
 
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('refresh', [AuthController::class, 'refresh']);
-    Route::post('me', [AuthController::class, 'me']);
+Route::group([
 
+    'middleware' => 'api',
+    'prefix' => 'v2/auth'
+
+], function ($router) {
+    Route::post('login', [AuthControllerV2::class, 'login']);
+    Route::post('register', [AuthControllerV2::class, 'register']);
+    Route::post('logout', [AuthControllerV2::class, 'logout']);
+    Route::post('refresh', [AuthControllerV2::class, 'refresh']);
+    Route::post('me', [AuthControllerV2::class, 'me']);
+    Route::get('index', [UserControllerV2::class, 'index']);
 });
