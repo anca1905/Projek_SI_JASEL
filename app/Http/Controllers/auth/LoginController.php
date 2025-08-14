@@ -39,9 +39,9 @@ class LoginController extends Controller
             'password' => $request->password,
         ];
 
-        if (Auth::guard('web')->attempt($data)) {
+        if (Auth::attempt($data)) {
 
-            $user = Auth::guard('web')->user();
+            $user = Auth::user();
             
             if ($user->role === 'admin') {
                 return redirect()->route('admin.admin.index');
@@ -52,7 +52,7 @@ class LoginController extends Controller
             }
         } else {
             return redirect()->route('auth.login')->with('failed', 'Email atau Password Salah');
-        }
+        } 
     }
 
     public function logout(){
