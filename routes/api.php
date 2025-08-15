@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\v1\AuthController as AuthControllerV1;
 use App\Http\Controllers\API\v2\AuthController as AuthControllerV2;
-use App\Http\Controllers\API\v1\UserController as UserControllerV1;
-use App\Http\Controllers\API\v2\UserController as UserControllerV2;
+use App\Http\Controllers\costumer\CostumerController;
+use App\Http\Controllers\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,6 @@ Route::group([
     Route::post('logout', [AuthControllerV1::class, 'logout']);
     Route::post('refresh', [AuthControllerV1::class, 'refresh']);
     Route::post('me', [AuthControllerV1::class, 'me']);
-    Route::get('index', [UserControllerV1::class, 'index']);
 });
 
 Route::group([
@@ -51,5 +51,16 @@ Route::group([
     Route::post('logout', [AuthControllerV2::class, 'logout']);
     Route::post('refresh', [AuthControllerV2::class, 'refresh']);
     Route::post('me', [AuthControllerV2::class, 'me']);
-    Route::get('index', [UserControllerV2::class, 'index']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'crud',
+], function () {
+    Route::get('get', [UserController::class, 'index']);
+    Route::post('post', [UserController::class, 'store']);
+    Route::put('put/{id}', [UserController::class, 'update']);
+    Route::patch('patch/{id}', [UserController::class, 'patch']);
+    Route::delete('delete/{id}', [UserController::class, 'destroy']);
+    Route::post('/upload', [FileController::class, 'upload']);
 });
