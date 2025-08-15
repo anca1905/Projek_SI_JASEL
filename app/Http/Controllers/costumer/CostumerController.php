@@ -132,6 +132,24 @@ class CostumerController extends Controller
         return redirect()->route('costumer.make_an_order')->with('success', 'Pengajuan berhasil di kirim');
     }
 
+    public function store_api(Request $request)
+    {
+
+        $data['user_id'] = auth('api')->id();
+        $data['province_code'] = $request->province;
+        $data['regency_code'] = $request->kabupaten;
+        $data['subdistrict_code'] = $request->kecamatan;
+        $data['village_code'] = $request->kelurahan;
+        $data['phone_number'] = $request->phone_number;
+        $fileName = $this->uploadCv($request);
+        $data['resume_path'] = $fileName;
+
+        $data['reason'] = $request->reason;
+
+        techniciansApplications::create($data);
+        return response()->json(['message' => 'User partially updated', 'data' => $data]);
+    }
+
     /**
      * Display the specified resource.
      */
