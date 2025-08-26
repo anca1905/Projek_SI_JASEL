@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\API\senctum\AuthController as AuthControllerSanctum;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\v1\AuthController as AuthControllerV1;
 use App\Http\Controllers\API\v2\AuthController as AuthControllerV2;
@@ -64,3 +66,20 @@ Route::group([
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::post('/upload', [FileController::class, 'upload']);
 });
+
+Route::apiResource('products', ProductController::class);
+
+// -- routes/api/sanctum -- //
+
+Route::group(['prefix' => 'sanctum'], function () {
+    Route::post('/register', [AuthControllerSanctum::class, 'register']);
+    Route::post('/login', [AuthControllerSanctum::class, 'login']);
+});
+
+// Hanya bisa diakses kalau sudah login
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile', [AuthControllerSanctum::class, 'profile']);
+    Route::post('/logout', [AuthControllerSanctum::class, 'logout']);
+});
+
+Route::post('/upload-image', [FileController::class, 'uploadBase64']);
