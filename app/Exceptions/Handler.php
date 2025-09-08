@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -47,35 +48,32 @@ class Handler extends ExceptionHandler
     }
 
     public function render($request, \Throwable $e)
-{
-    // Kalau API request
-    if ($request->expectsJson()) {
+    {            
+        if ($request->expectsJson()) {
 
-        // Error validasi
-        if ($e instanceof \Illuminate\Validation\ValidationException) {
-            return response()->json([
-                'status'  => false,
-                'message' => 'Validasi gagal',
-                'errors'  => $e->errors(),
-            ], 422);
-        }
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return response()->json([   
+                    'status'  => false,
+                    'message' => 'Validasi gagal',
+                    'errors'  => $e->errors(),
+                ], 422);
+            }
 
-        // Custom error FileUpload
-        if ($e instanceof \App\Exceptions\FileUploadException) {
+
+            if ($e instanceof \App\Exceptions\FileUploadException) {
+                return response()->json([
+                    'status'  => false,
+                    'message' => $e->getMessage(),
+                ], 400);
+            }
+
+
             return response()->json([
                 'status'  => false,
                 'message' => $e->getMessage(),
-            ], 400);
+            ], 500);
         }
 
-        // Error lain
-        return response()->json([
-            'status'  => false,
-            'message' => $e->getMessage(),
-        ], 500);
+        return parent::render($request, $e);
     }
-
-    return parent::render($request, $e);
-}
-
 }
