@@ -10,10 +10,17 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      */
+    protected $commands = [
+        Commands\DemoCron::class,
+    ];
+
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('telescope:prune --hours=48')->daily()->sendOutputTo(storage_path('logs/scheduler.log'));
+
+        $schedule->command('demo:cron')
+            ->everyMinute();
     }
 
     /**
