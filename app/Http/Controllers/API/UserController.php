@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\FileRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -56,12 +57,10 @@ class UserController extends Controller
         }
     }
 
-    public function upload(Request $request)
+    public function upload(FileRequest $request)
     {
         // Validasi file wajib ada & formatnya sesuai
-        $request->validate([
-            'file' => 'required|mimes:jpg,jpeg,png,pdf|max:2048' // max 2MB
-        ]);
+        $data = $request->validated();
 
         // Simpan file ke storage/app/public/uploads
         $path = $request->file('file')->store('uploads', 'public');
@@ -93,15 +92,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = Validator::make(request()->all(), [
-            'name' => 'required|string|max:255',
-            'email' => "required|string|email|unique:users,email,$id",
-            'password' => 'required|string|min:6'
-        ]);
+        // $validator = Validator::make(request()->all(), [
+        //     'name' => 'required|string|max:255',
+        //     'email' => "required|string|email|unique:users,email,$id",
+        //     'password' => 'required|string|min:6'
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->messages());
-        }
+        // if ($validator->fails()) {
+        //     return response()->json($validator->messages());
+        // }
 
         $user = User::findOrFail($id);
         $user->update([
