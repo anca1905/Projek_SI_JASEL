@@ -7,6 +7,8 @@ use App\Http\Controllers\API\v1\AuthController as AuthControllerV1;
 use App\Http\Controllers\API\v2\AuthController as AuthControllerV2;
 use App\Http\Controllers\costumer\CostumerController;
 use App\Http\Controllers\FileController;
+use App\Jobs\SendWelcomeEmail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -82,4 +84,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthControllerSanctum::class, 'logout']);
 });
 
-Route::post('/upload-image', [FileController::class, 'uploadBase64']);
+// Route::post('/upload-image', [FileController::class, 'uploadBase64']);
+Route::post('/upload-image', [FileController::class, 'upload']);
+
+Route::get('/test-job', function () {
+    $user = User::first(); // ambil user pertama di database
+    SendWelcomeEmail::dispatch($user);
+    return "Job berhasil dikirim ke queue!";
+});
