@@ -3,13 +3,12 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserWelcomeMail extends Mailable
+class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -20,7 +19,7 @@ class UserWelcomeMail extends Mailable
      */
     public function __construct($user)
     {
-
+        $this->user = $user;
     }
 
     /**
@@ -29,7 +28,7 @@ class UserWelcomeMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Welcome Mail',
+            subject: 'Selamat Datang di Aplikasi Kami',
         );
     }
 
@@ -39,7 +38,10 @@ class UserWelcomeMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.users.welcome',
+            view: 'emails.users.welcome',   
+            with: [
+                'user' => $this->user
+            ],
         );
     }
 
@@ -52,5 +54,4 @@ class UserWelcomeMail extends Mailable
     {
         return [];
     }
-
 }
