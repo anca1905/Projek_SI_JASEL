@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('technician_id');
             $table->foreign('technician_id')->references('id')->on('users')->onDelete('cascade');
-            $table->enum('day_of_week', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'])->nullable()->default(['Senin']);
-            $table->time('available_from')->nullable()->default(new DateTime());
-            $table->time('available_to')->nullable()->default(new DateTime());
+            $table->enum('day_of_week', ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'])->nullable()->default('Senin');
+            $table->time('available_from')->nullable()->default('08:00:00');
+            $table->time('available_to')->nullable()->default('17:00:00');
             $table->timestamps();
         });
     }
