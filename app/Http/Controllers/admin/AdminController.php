@@ -6,23 +6,23 @@ use App\Http\Controllers\Controller;
 use App\Models\Orders;
 use App\Models\techniciansApplications;
 use App\Models\User;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, OrderService $orderService)
     {
         if ($request->ajax()) {
-            $data = Orders::with('user', 'teknisi', 'manageService')->withoutGlobalScopes()->get();
-            return response()->json($data);
+            return response()->json($orderService->getFilteredOrders($request));
         }
         $total = Orders::withoutGlobalScopes()->total()->count();
-        $data = Orders::withoutGlobalScopes()->get();
         $user = Auth::user();
         $newOrdersCount = Orders::countOrders();
         $teknisiCount = Orders::serviceCount();
-        return view('admin.index', compact('total', 'newOrdersCount', 'teknisiCount', 'data', 'user'));
+        $teknisiList = User::where('role', 'teknisi')->get();
+        return view('admin.index', compact('total', 'newOrdersCount', 'teknisiCount', 'teknisiList', 'user'));
     }
 
     public function show($id)
@@ -31,12 +31,14 @@ class AdminController extends Controller
         return view('admin.show', compact('order'));
     }
 
-    public function application(){
+    public function application()
+    {
         $data = techniciansApplications::all();
         return view('admin.application', compact('data'));
     }
 
-    public function show_application($id){
+    public function show_application($id)
+    {
         $data = techniciansApplications::find($id);
         return view('admin.show_application', compact('data'));
     }
