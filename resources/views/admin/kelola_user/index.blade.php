@@ -185,9 +185,10 @@
                                                     onsubmit="return confirm('Apakah Anda yakin ingin menghapus user {{ $user->name }}?');">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit"
+                                                    <button type="button"
                                                         class="text-red-600 hover:text-red-900 transition-colors duration-200"
-                                                        title="Hapus">
+                                                        title="Hapus"
+                                                        onclick="confirmDelete('{{ route('admin.adminuser.destroy', $user->id) }}', '{{ $user->name }}')">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
@@ -215,4 +216,43 @@
 @section('js')
     {{-- Font Awesome CDN for icons --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmDelete(deleteUrl, userName) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                html: `Anda akan menghapus user **${userName}**. Aksi ini tidak dapat dibatalkan.`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Buat form dinamis dan submit
+                    let form = document.createElement('form');
+                    form.action = deleteUrl;
+                    form.method = 'POST';
+
+                    // Tambahkan CSRF token
+                    let csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = '_token';
+                    csrfToken.value = '{{ csrf_token() }}';
+                    form.appendChild(csrfToken);
+
+                    // Tambahkan method DELETE
+                    let methodInput = document.createElement('input');
+                    methodInput.type = 'hidden';
+                    methodInput.name = '_method';
+                    methodInput.value = 'DELETE';
+                    form.appendChild(methodInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
 @endsection
