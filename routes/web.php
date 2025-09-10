@@ -7,8 +7,15 @@ use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\teknisi\ServicesController;
 use App\Http\Controllers\admin\UsersController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\costumer\CostumerController;
+use App\Jobs\SendWelcomeEmail;
+use App\Mail\WelcomeMail;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,3 +114,12 @@ Route::get('/api/wilayah/villages/{kode}', function ($kode) {
     return $response->json(); // simple response
 });
 
+Route::get('/product', [ProductController::class, 'index']);
+
+Route::get('/send-mail', function () {
+    $user = (object) ['name' => 'Arsyad', 'email' => 'test@example.com'];
+
+    dispatch(new SendWelcomeEmail($user));
+
+    return "Email terkirim ke Mailtrap melalui queue!";
+});
