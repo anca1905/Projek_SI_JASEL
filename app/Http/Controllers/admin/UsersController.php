@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -13,24 +14,9 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, UserService $userService)
     {
-        $query = User::query();
-
-        if ($request->has('search')) {
-            $cari = $request->search;
-            $query->where(function ($q) use ($cari) {
-                $q->where('name', 'like', '%' . $cari . '%')
-                    ->orWhere('email', 'like', '%' . $cari . '%');
-            });
-
-            if ($request->filled('role')) {
-                $query->where('role', $request->role);
-            }
-        }
-
-        $users = $query->paginate(5)->appends($request->only('search', 'role'));
-
+        $users = $userService->getFilterUsers($request);
         return view('admin.kelola_user.index', compact('users'));
     }
 
@@ -46,19 +32,9 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
+    public function store(UserRequest $request, UserService $userService)
     {
         $data = $request->validated();
-
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        $data['password'] = Hash::make($request->password);
-
-        if ($request->role) { 
-            $data['role'] = $request->role;
-        } else {
-            $data['role'] = 'pelanggan';
-        }
 
         User::create($data);
 
@@ -90,27 +66,14 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
+    public function update(UserRequest $request, string $id, UserService $userService)
     {
-        $find = User::find($id);
-
+        $user = User::findOrFail($id);
         $data = $request->validated();
 
-        $data['name'] = $request->name;
-        $data['email'] = $request->email;
-        if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
+        $data['password'] = $data['password'] ? $data['password'] : $user->password;
 
-        if (!empty($request->role)) {
-            $data['role'] = $request->role;
-        } else {
-            unset($data['role']);
-        }
-        
-        $find->update($data);
+        $user->update($data);
 
         return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil diperbarui!');
     }
@@ -120,8 +83,8 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        $this->authorize('delete', User::findOrFail($id));
-        $data = User::find($id);
+        $data = User::findOrFail($id);
+        $this->authorize('delete', $data);
 
         if (!$data) {
             return redirect()->route('admin.adminuser.index')->with('error', 'User tidak ditemukan!');
