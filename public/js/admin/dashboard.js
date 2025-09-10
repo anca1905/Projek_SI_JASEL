@@ -1,15 +1,35 @@
 $(document).ready(function () {
     loadData();
+
+    $('#filter_status, #filter_technician').on('change', function () {
+        loadData();
+    })
 });
 
 function loadData() {
     let url = $('#order-table-body').data('url');
     let action = $('#order-table-body').data('action');
+    let filter = {
+        status: $('#filter_status').val(),
+        technician: $('#filter_technician').val(),
+    }
+
     $.ajax({
         url: url,
         method: 'GET',
+        data: filter,
         success: function (data) {
             $('#order-table-body').empty();
+
+            if (data.length === 0) {
+                $('#order-table-body').append(`
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-gray-500">Tidak ada data ditemukan</td>
+                    </tr>
+                    `);
+                return;
+            }
+
             data.forEach(function (order) {
                 $('#order-table-body').append(`
                     <tr>
