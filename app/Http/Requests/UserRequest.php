@@ -25,17 +25,8 @@ class UserRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'role' => 'nullable',
-            'password' => 'nullable',
+            'password' => 'sometimes|required|min:6',
         ];
-    }
-
-    public function withValidator($validator)
-    {
-        if ($this->isMethod('post')) {
-            $validator->sometimes('password', 'required', function ($data) {
-                return true;
-            });
-        }
     }
 
     public function messages(): array
@@ -45,6 +36,7 @@ class UserRequest extends FormRequest
             'email.required' => 'Email harus diisi',
             'email.email' => 'Format email tidak valid',
             'password.required' => 'Password harus diisi',
+            'password.min' => 'password harus diisi minimal 6 character'
         ];
     }
 
