@@ -14,12 +14,14 @@
                 class="mb-8 p-6 rounded-lg border border-gray-200 bg-gray-50 flex flex-col md:flex-row gap-4 items-end">
                 <div class="w-full md:w-1/4">
                     <label for="start_date" class="block text-sm font-medium text-gray-700 mb-1">Dari Tanggal</label>
-                    <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }}"
+                    <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }} "
+                        max="{{ request('end_date') }}"
                         class="w-full block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                 </div>
                 <div class="w-full md:w-1/4">
                     <label for="end_date" class="block text-sm font-medium text-gray-700 mb-1">Sampai Tanggal</label>
                     <input type="date" name="end_date" id="end_date" value="{{ request('end_date') }}"
+                        min="{{ request('start_date') }}"
                         class="w-full block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                 </div>
                 <div class="w-full md:w-1/4">
@@ -27,12 +29,11 @@
                     <select name="status" id="status"
                         class="w-full p-2 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                         <option value="">Semua Status</option>
-                        <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                        <option value="dalam_proses" {{ request('status') == 'dalam_proses' ? 'selected' : '' }}>Dalam
+                        <option value="menunggu_konfirmasi"
+                            {{ request('status') == 'menunggu_konfirmasi' ? 'selected' : '' }}>Menunggu Konfirmasi</option>
+                        <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Dalam
                             Proses</option>
                         <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                        <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan
-                        </option>
                     </select>
                 </div>
                 <div class="w-full md:w-1/4">
@@ -40,10 +41,10 @@
                     <select name="technician" id="technician"
                         class="w-full p-2 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                         <option value="">Semua Teknisi</option>
-                        {{-- @foreach ($technicians as $tech) --}}
-                        <option value="1" {{ request('technician') == '1' ? 'selected' : '' }}>Teknisi A</option>
-                        <option value="2" {{ request('technician') == '2' ? 'selected' : '' }}>Teknisi B</option>
-                        {{-- @endforeach --}}
+                        @foreach ($technicians as $tech)
+                            <option value="{{ $tech->id }}" {{ request('technician') == $tech->id ? 'selected' : '' }}>
+                                {{ $tech->name }}</option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="flex-shrink-0 flex items-center space-x-2 w-full md:w-auto">
@@ -167,4 +168,17 @@
 
 @section('js')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        const start = document.getElementById('start_date');
+        const end = document.getElementById('end_date');
+
+        start.addEventListener('change', function() {
+            end.min = this.value;
+        });
+
+        end.addEventListener('change', function() {
+            start.max = this.value;
+        });
+    </script>
+
 @endsection
