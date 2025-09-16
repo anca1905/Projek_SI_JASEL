@@ -7,15 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ServiceRequest;
 use App\Models\ManageServices;
 use App\Models\Services;
+use App\Services\JasaServices;
 
 class KelolaJasaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, JasaServices $services)
     {
-        $data = ManageServices::all();
+        $data = $services->getFilteredServices($request);
         return view('admin.kelola_jasa.index', compact('data'));
     }
 
