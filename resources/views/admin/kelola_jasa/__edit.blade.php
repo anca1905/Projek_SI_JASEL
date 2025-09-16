@@ -32,8 +32,14 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea id="description" name="description">{{ old('description', $service->description) }}</textarea>
+                </div>
+
                 <div class="flex justify-between items-center pt-4 border-t border-gray-200">
-                    <a href="{{ route('admin.adminkelola_jasa.index') }}" class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
+                    <a href="{{ route('admin.adminkelola_jasa.index') }}"
+                        class="text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200">
                         Kembali
                     </a>
                     <button type="submit"
@@ -48,4 +54,14 @@
 
 @section('js')
     <script src="{{ asset('js/admin/kelola_jasa/create.js') }}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#description').summernote({
+                height: 300,
+            });
+        });
+    </script>
 @endsection

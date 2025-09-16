@@ -10,18 +10,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {{-- <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('ckfinder/ckfinder.js') }}"></script> --}}
+
+    {{-- <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> --}}
+
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
+
         /* Custom styles for sidebar transition */
         .sidebar {
             transform: translateX(-100%);
             transition: transform 0.3s ease-in-out;
         }
+
         .sidebar.open {
             transform: translateX(0);
         }
+
         .backdrop {
             background-color: rgba(0, 0, 0, 0.5);
         }
@@ -33,7 +41,7 @@
     <div class="flex h-screen overflow-hidden antialiased">
         <!-- Backdrop for mobile menu -->
         <div id="backdrop" class="fixed inset-0 z-40 bg-black bg-opacity-50 hidden md:hidden"></div>
-        
+
         <!-- Sidebar -->
         <aside id="sidebar"
             class="fixed z-50 w-64 h-full bg-white text-gray-800 border-r border-gray-200 shadow-lg flex flex-col p-4 transition-transform duration-300 ease-in-out -translate-x-full md:relative md:translate-x-0">
@@ -100,18 +108,31 @@
                                     class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->is('admin/application*') ? 'bg-blue-50 text-blue-700 font-semibold shadow-sm' : 'hover:bg-gray-100 text-gray-700' }}">
                                     <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"
                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                         <path fill-rule="evenodd"
                                             d="M4 5a2 2 0 012-2 3 3 0 003 3h1a3 3 0 003-3 2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 3h.01a1 1 0 01.01-.01H7a1 1 0 01-.01.01zM11 3a1 1 0 112 0v.01a.999.999 0 11-2-.01V3z"
                                             clip-rule="evenodd"></path>
-                                        <path fill-rule="evenodd"
-                                            d="M11 6a1 1 0 100 2h1a1 1 0 100-2h-1z"
+                                        <path fill-rule="evenodd" d="M11 6a1 1 0 100 2h1a1 1 0 100-2h-1z"
                                             clip-rule="evenodd"></path>
-                                        <path
-                                            d="M9 10a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                        <path d="M9 10a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
                                     </svg>
                                     Aplikasi
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.database') }}"
+                                    class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->is('admin/application*') ? 'bg-blue-50 text-blue-700 font-semibold shadow-sm' : 'hover:bg-gray-100 text-gray-700' }}">
+                                    <svg class="w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                        <path fill-rule="evenodd"
+                                            d="M4 5a2 2 0 012-2 3 3 0 003 3h1a3 3 0 003-3 2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 3h.01a1 1 0 01.01-.01H7a1 1 0 01-.01.01zM11 3a1 1 0 112 0v.01a.999.999 0 11-2-.01V3z"
+                                            clip-rule="evenodd"></path>
+                                        <path fill-rule="evenodd" d="M11 6a1 1 0 100 2h1a1 1 0 100-2h-1z"
+                                            clip-rule="evenodd"></path>
+                                        <path d="M9 10a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                    </svg>
+                                    Database
                                 </a>
                             </li>
                         @endif
@@ -210,44 +231,53 @@
                 <!-- Hamburger Menu Button for Mobile -->
                 <button id="menu-toggle" class="text-gray-500 hover:text-gray-900 focus:outline-none md:hidden mr-4">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
-                
+
                 <h2 class="text-xl sm:text-2xl font-bold text-gray-900 truncate">@yield('title')</h2>
                 <div class="flex items-center space-x-2 sm:space-x-4">
                     {{-- Notification Bell --}}
                     <div class="relative">
-                        <button id="notification-button" type="button" class="relative text-gray-600 hover:text-gray-800 transition-colors duration-200">
+                        <button id="notification-button" type="button"
+                            class="relative text-gray-600 hover:text-gray-800 transition-colors duration-200">
                             <i class="fas fa-bell w-6 h-6"></i>
-                            <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">3</span>
+                            <span
+                                class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">3</span>
                         </button>
-                        <div id="notification-dropdown" class="hidden absolute right-0 mt-3 w-80 max-h-96 overflow-y-auto bg-white rounded-lg shadow-xl border border-gray-200 z-50 transform translate-x-1/4 sm:translate-x-0">
+                        <div id="notification-dropdown"
+                            class="hidden absolute right-0 mt-3 w-80 max-h-96 overflow-y-auto bg-white rounded-lg shadow-xl border border-gray-200 z-50 transform translate-x-1/4 sm:translate-x-0">
                             <div class="p-4 border-b border-gray-200 flex items-center justify-between">
                                 <h3 class="text-lg font-bold text-gray-800">Notifikasi</h3>
-                                <a href="#" class="text-sm text-blue-600 hover:underline">Tandai semua sudah dibaca</a>
+                                <a href="#" class="text-sm text-blue-600 hover:underline">Tandai semua sudah
+                                    dibaca</a>
                             </div>
                             <div class="divide-y divide-gray-100">
                                 {{-- Loop through notifications here --}}
                                 <a href="#" class="block p-4 hover:bg-gray-50 transition-colors duration-200">
                                     <p class="text-sm font-semibold text-gray-800">Pengajuan Anda disetujui!</p>
-                                    <p class="text-xs text-gray-500 mt-1">Selamat, permohonan Anda sebagai teknisi telah disetujui. Anda sekarang bisa menerima pesanan.</p>
+                                    <p class="text-xs text-gray-500 mt-1">Selamat, permohonan Anda sebagai teknisi
+                                        telah disetujui. Anda sekarang bisa menerima pesanan.</p>
                                 </a>
                                 <a href="#" class="block p-4 hover:bg-gray-50 transition-colors duration-200">
                                     <p class="text-sm font-semibold text-gray-800">Pesanan baru masuk</p>
-                                    <p class="text-xs text-gray-500 mt-1">Pesanan #00123 dari John Doe telah masuk. Cek sekarang!</p>
+                                    <p class="text-xs text-gray-500 mt-1">Pesanan #00123 dari John Doe telah masuk. Cek
+                                        sekarang!</p>
                                 </a>
                                 <a href="#" class="block p-4 hover:bg-gray-50 transition-colors duration-200">
                                     <p class="text-sm text-gray-800">Pesanan #00122 telah selesai</p>
-                                    <p class="text-xs text-gray-500 mt-1">Pesanan Anda dengan nomor #00122 telah diselesaikan oleh teknisi. Silakan cek detailnya.</p>
+                                    <p class="text-xs text-gray-500 mt-1">Pesanan Anda dengan nomor #00122 telah
+                                        diselesaikan oleh teknisi. Silakan cek detailnya.</p>
                                 </a>
                                 <div class="p-4 text-center">
-                                    <a href="#" class="text-sm text-blue-600 font-medium hover:underline">Lihat Semua Notifikasi</a>
+                                    <a href="#" class="text-sm text-blue-600 font-medium hover:underline">Lihat
+                                        Semua Notifikasi</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     {{-- User Profile --}}
                     <span class="text-gray-600 font-medium truncate max-w-[100px] sm:max-w-[150px] hidden sm:block">
                         {{ Auth::user()->name ?? 'Admin Account' }}
@@ -283,7 +313,8 @@
             });
 
             document.body.addEventListener('click', function(event) {
-                if (!notificationDropdown.contains(event.target) && !notificationButton.contains(event.target)) {
+                if (!notificationDropdown.contains(event.target) && !notificationButton.contains(event
+                        .target)) {
                     notificationDropdown.classList.add('hidden');
                 }
             });

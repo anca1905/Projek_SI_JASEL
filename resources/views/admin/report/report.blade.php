@@ -125,40 +125,33 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{-- Example static data (replace with dynamic data from controller) --}}
-                            <tr>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">#005</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap font-medium text-gray-900">Budi Santoso</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">Service Laptop</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Menunggu</span>
-                                </td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-28</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">#004</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap font-medium text-gray-900">Dewi Lestari</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">Perbaikan AC</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Selesai</span>
-                                </td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-27</td>
-                            </tr>
-                            <tr>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">#003</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap font-medium text-gray-900">Fajar Putra</td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">Instalasi Jaringan
-                                </td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Dalam
-                                        Proses</span>
-                                </td>
-                                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-26</td>
-                            </tr>
-                            {{-- @endforeach --}}
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
+                                        #{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</td>
+                                    <td class="px-3 sm:px-6 py-4 whitespace-nowrap font-medium text-gray-900">
+                                        {{ $order->user->name }}
+                                    </td>
+                                    <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->manageService->name }}
+                                    </td>
+                                    <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
+                                        @php
+                                            $statusClass = match ($order->status) {
+                                                'menunggu_konfirmasi' => 'bg-yellow-100 text-yellow-800',
+                                                'diproses' => 'bg-blue-100 text-blue-800',
+                                                'selesai' => 'bg-green-100 text-green-800',
+                                                'menunggu_pembayaran' => 'bg-orange-100 text-orange-800',
+                                                default => 'bg-gray-100 text-gray-800',
+                                            };
+                                        @endphp
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">{{ ucfirst(str_replace('_', ' ', $order->status)) }}</span>
+                                    </td>
+                                    <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->created_at->format('Y-m-d') }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

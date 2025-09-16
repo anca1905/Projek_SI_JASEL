@@ -47,7 +47,7 @@
 
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
-                {{-- Left: Title + Add Button --}}
+
                 <div class="flex items-center space-x-4 flex-wrap gap-2">
                     <h3 class="text-2xl font-bold text-gray-800">Daftar Jasa</h3>
                     <a href="{{ route('admin.adminkelola_jasa.create') }}"

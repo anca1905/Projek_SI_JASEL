@@ -92,6 +92,43 @@ class UsersController extends Controller
 
         $data->delete();
 
-        return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil dihapus!');
+        return redirect()->route('admin.adminuser.index')->with(['deleted_user_id' => $data->id]);
+    }
+
+    public function viewRestore()
+    {
+        return view('admin.kelola_user.restore');
+    }
+
+    public function deletedUsers(Request $request)
+    {
+        $query = User::onlyTrashed();
+
+
+        if ($request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('email', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->role) {
+            $query->where('role', $request->role);
+        }
+
+        $deletedUsers = $query->paginate(10);
+
+        return view('admin.kelola_user.restore', compact('deletedUsers'));
+    }
+
+    public function restore(string $id)
+    {
+        $user = User::withTrashed()->find($id);
+
+        if (!$user) {
+            return redirect()->route('admin.adminuser.index')->with('error', 'Pengguna tidak ditemukan.');
+        }
+
+        $user->restore();
+
+        return redirect()->route('admin.adminuser.index')->with('success', 'User berhasil dipulihkan');
     }
 }

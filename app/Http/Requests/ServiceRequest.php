@@ -24,6 +24,8 @@ class ServiceRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'price' => 'required|min:0',
+            'description' => 'nullable',
+            'files' => 'nullable'
         ];
     }
 

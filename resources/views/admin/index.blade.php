@@ -108,7 +108,6 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 text-gray-700" id="order-table-body"
                         data-url="{{ route('admin.admin.index') }}" data-action="{{ route('admin.admin.show', [':id']) }}">
-                        {{-- The provided code is already using JavaScript to populate the table, so this section is left for the dynamic content. I've commented out the static PHP loop to reflect this. --}}
                     </tbody>
                 </table>
             </div>

@@ -44,6 +44,20 @@ Route::middleware(['auth:web', 'authrole:admin'])->prefix('admin')->name('admin.
         'destroy' => 'adminuser.destroy',
     ]);
 
+    Route::put('user/{id}/restore', [UsersController::class, 'restore'])->name('adminuser.restore');
+    Route::view('/admin/database', 'admin.database')->name('database');
+    Route::post('/admin/admin/database/export', [AdminController::class, 'export'])
+        ->name('admin.admin.export.database');
+
+    Route::post('/admin/database/impor', [AdminController::class, 'import'])->name('admin.import.database');
+    Route::get('/admin/report/orders/export/{type}', [ReportController::class, 'exportOrders'])
+        ->name('admin.report.orders.export');
+    Route::get('/adminuser/restore', [UsersController::class, 'viewRestore'])->name('user.view.restore');
+    Route::get('/adminuser/restore', [UsersController::class, 'deletedUsers'])->name('user.restore');
+
+    // Route::get('/export-excel', [ReportController::class, 'exportExcel'])->name('export.excel');
+    // Route::get('/orders/pdf', [ReportController::class, 'exportPdf'])->name('orders.exportPdf');
+
     // Service Management
     Route::resource('kelola_jasa', KelolaJasaController::class)->names([
         'index' => 'adminkelola_jasa.index',
@@ -106,4 +120,3 @@ Route::get('/api/wilayah/villages/{kode}', function ($kode) {
 
     return $response->json(); // simple response
 });
-

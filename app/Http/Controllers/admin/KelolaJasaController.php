@@ -32,16 +32,10 @@ class KelolaJasaController extends Controller
      */
     public function store(ServiceRequest $request)
     {
-        // Validasi data yang diterima dari form
         $data = $request->validated();
 
-        $data['name'] = $request->name;
-        $data['price'] = $request->price;
-
-        // Simpan data jasa ke database
         ManageServices::create($data);
 
-        // Redirect atau tampilkan pesan sukses
         return redirect()->route('admin.adminkelola_jasa.index')->with('success', 'Jasa berhasil ditambahkan.');
     }
 
@@ -67,10 +61,9 @@ class KelolaJasaController extends Controller
      */
     public function update(ServiceRequest $request, string $id)
     {
+        // dd($request);
         $service = ManageServices::findOrFail($id);
         $data = $request->validated();
-        $data['name'] = $request->name;
-        $data['price'] = $request->price;
         $service->update($data);
         return redirect()->route('admin.adminkelola_jasa.index')->with('success', 'Jasa berhasil diperbarui.');
     }

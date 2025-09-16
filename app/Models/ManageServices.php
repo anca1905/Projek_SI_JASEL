@@ -12,5 +12,6 @@ class ManageServices extends Model
     protected $fillable = [
         'name',
         'price',
+        'description'
     ];
 }

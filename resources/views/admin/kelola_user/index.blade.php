@@ -30,6 +30,7 @@
             /* border-gray-200 */
         }
     </style>
+
 @endsection
 
 @section('title', 'Kelola Pengguna')
@@ -39,7 +40,8 @@
     <div class="space-y-6">
         {{-- Success/Error Messages --}}
         @if (session('success'))
-            <div class="bg-green-50 border-l-4 border-green-400 text-green-700 p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out"
+            <div id="notification"
+                class="bg-green-50 border-l-4 border-green-400 text-green-700 p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out"
                 role="alert">
                 <div class="flex items-center">
                     <div class="py-1">
@@ -58,7 +60,8 @@
         @endif
 
         @if (session('error'))
-            <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out"
+            <div id="notification"
+                class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out"
                 role="alert">
                 <div class="flex items-center">
                     <div class="py-1">
@@ -76,6 +79,24 @@
             </div>
         @endif
 
+        {{-- Notifikasi 'Undo' --}}
+        @if (session('deleted_user_id'))
+            <div id="notification"
+                class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-700 p-4 rounded-lg shadow-md flex items-center justify-between"
+                role="alert">
+                <p class="text-sm">Pengguna berhasil dihapus. <span class="font-semibold">Klik "Undo" untuk
+                        membatalkan.</span></p>
+                <form action="{{ route('admin.adminuser.restore', session('deleted_user_id')) }}" method="POST">
+                    @method('PUT')
+                    @csrf
+                    <button type="submit"
+                        class="bg-yellow-400 text-white font-bold py-2 px-4 rounded-lg hover:bg-yellow-500 transition-colors duration-200">
+                        Undo
+                    </button>
+                </form>
+            </div>
+        @endif
+
         <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
                 <div class="flex items-center space-x-4 flex-wrap gap-2">
@@ -83,6 +104,10 @@
                     <a href="{{ route('admin.adminuser.create') }}"
                         class="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-colors duration-200">
                         <i class="fas fa-plus mr-2"></i> Tambah Pengguna Baru
+                    </a>
+                    <a href="{{ route('admin.user.restore') }}"
+                        class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-sm transition-colors duration-200">
+                        <i class="fas fa-history mr-2"></i> Restore Data
                     </a>
                 </div>
 
@@ -152,7 +177,8 @@
                         <tbody class="bg-white divide-y divide-gray-200 text-gray-700">
                             @foreach ($users as $user)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration + $users->firstItem() - 1 }}
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ $loop->iteration + $users->firstItem() - 1 }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         {{ $user->name }}</td>
@@ -182,13 +208,13 @@
                                             @endcan
                                             @can('delete', $user)
                                                 <form action="{{ route('admin.adminuser.destroy', $user->id) }}" method="POST"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus user {{ $user->name }}?');">
+                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus user {{ $user->name }}?');"
+                                                    class="delete-form">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button"
+                                                    <button type="submit"
                                                         class="text-red-600 hover:text-red-900 transition-colors duration-200"
-                                                        title="Hapus"
-                                                        onclick="confirmDelete('{{ route('admin.adminuser.destroy', $user->id) }}', '{{ $user->name }}')">
+                                                        title="Hapus">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </button>
                                                 </form>
@@ -211,48 +237,20 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('js')
     {{-- Font Awesome CDN for icons --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        function confirmDelete(deleteUrl, userName) {
-            Swal.fire({
-                title: 'Apakah Anda yakin?',
-                html: `Anda akan menghapus user **${userName}**. Aksi ini tidak dapat dibatalkan.`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Buat form dinamis dan submit
-                    let form = document.createElement('form');
-                    form.action = deleteUrl;
-                    form.method = 'POST';
-
-                    // Tambahkan CSRF token
-                    let csrfToken = document.createElement('input');
-                    csrfToken.type = 'hidden';
-                    csrfToken.name = '_token';
-                    csrfToken.value = '{{ csrf_token() }}';
-                    form.appendChild(csrfToken);
-
-                    // Tambahkan method DELETE
-                    let methodInput = document.createElement('input');
-                    methodInput.type = 'hidden';
-                    methodInput.name = '_method';
-                    methodInput.value = 'DELETE';
-                    form.appendChild(methodInput);
-
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            });
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const undoAlert = document.getElementById('notification');
+            if (undoAlert) {
+                setTimeout(() => {
+                    undoAlert.style.display = 'none';
+                }, 5000); // Sembunyikan notifikasi setelah 5 detik
+            }
+        });
     </script>
 @endsection

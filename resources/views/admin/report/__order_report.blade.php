@@ -28,9 +28,11 @@
                         class="w-full p-2 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                         <option value="">Semua Status</option>
                         <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                        <option value="dalam_proses" {{ request('status') == 'dalam_proses' ? 'selected' : '' }}>Dalam Proses</option>
+                        <option value="dalam_proses" {{ request('status') == 'dalam_proses' ? 'selected' : '' }}>Dalam
+                            Proses</option>
                         <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                        <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
+                        <option value="dibatalkan" {{ request('status') == 'dibatalkan' ? 'selected' : '' }}>Dibatalkan
+                        </option>
                     </select>
                 </div>
                 <div class="w-full md:w-1/4">
@@ -38,7 +40,7 @@
                     <select name="technician" id="technician"
                         class="w-full p-2 block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 transition duration-150 ease-in-out sm:text-sm">
                         <option value="">Semua Teknisi</option>
-                        {{-- @foreach($technicians as $tech) --}}
+                        {{-- @foreach ($technicians as $tech) --}}
                         <option value="1" {{ request('technician') == '1' ? 'selected' : '' }}>Teknisi A</option>
                         <option value="2" {{ request('technician') == '2' ? 'selected' : '' }}>Teknisi B</option>
                         {{-- @endforeach --}}
@@ -58,72 +60,92 @@
                 </div>
             </form>
 
-            {{-- Export Button and Main Content --}}
             <div class="mb-6 flex justify-end items-center space-x-4">
-                <a href="{{ route('admin.report.orders', array_merge(request()->query(), ['export' => 'excel'])) }}"
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+                <a href="{{ route('admin.admin.report.orders.export', array_merge(request()->query(), ['type' => 'pdf'])) }}"
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                    <i class="fas fa-file-pdf mr-2"></i> Export ke PDF
+                </a>
+                <a href="{{ route('admin.admin.report.orders.export', array_merge(request()->query(), ['type' => 'excel'])) }}"
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700">
                     <i class="fas fa-file-excel mr-2"></i> Export ke Excel
                 </a>
             </div>
+
 
             <div class="table-container">
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">ID Pesanan</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Pelanggan</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Jasa</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Teknisi</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tgl Pesan</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tgl Selesai</th>
-                                <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Harga</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    ID Pesanan</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Pelanggan</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Jasa</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Status</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Teknisi</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Tgl Pesan</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Tgl Selesai</th>
+                                <th
+                                    class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Total Harga</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            {{-- Contoh data statis. Ganti dengan @foreach loop dari controller --}}
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#202507001</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Andi Susanto</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Service Laptop</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Selesai</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Teknisi A</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-20</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-22</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp 150.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#202507002</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Budi Wijaya</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Perbaikan AC</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Menunggu</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Belum Ditugaskan</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-25</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp 200.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#202507003</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Citra Dewi</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Instalasi Jaringan</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Dalam Proses</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Teknisi B</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-26</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp 350.000</td>
-                            </tr>
-                            {{-- @empty
+                            @foreach ($orders as $order)
                                 <tr>
-                                    <td colspan="8" class="px-6 py-4 text-center text-gray-500">Tidak ada pesanan yang ditemukan.</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        #{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $order->user->name }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->manageService->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @php
+                                            $statusClass = match ($order->status) {
+                                                'menunggu_konfirmasi' => 'bg-yellow-100 text-yellow-800',
+                                                'diproses' => 'bg-blue-100 text-blue-800',
+                                                'selesai' => 'bg-green-100 text-green-800',
+                                                'menunggu_pembayaran' => 'bg-orange-100 text-orange-800',
+                                                default => 'bg-gray-100 text-gray-800',
+                                            };
+                                        @endphp
+                                        <span
+                                            class="px-3 py-1 inline-flex text-xs font-semibold rounded-full {{ $statusClass }}">
+                                            {{ ucfirst(str_replace('_', ' ', $order->status)) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->teknisi ? $order->teknisi->name : 'Belum di Tugaskan' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->created_at->format('Y-m-d') }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->status == 'menunggu_konfirmasi' ? 'Belum di Konfirmasi' : ($order->status == 'diproses' ? 'on progress' : $order->finish_time) }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp
+                                        150.000</td>
                                 </tr>
-                            @endforelse --}}
+                                {{-- @empty
+                                    <tr>
+                                        <td colspan="8" class="px-6 py-4 text-center text-gray-500">Tidak ada pesanan yang
+                                            ditemukan.</td>
+                                    </tr>
+                                @endforelse --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
