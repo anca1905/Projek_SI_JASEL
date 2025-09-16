@@ -8,6 +8,8 @@ use App\Exports\OrdersExport;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Services\OrderService;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
@@ -21,11 +23,12 @@ class ReportController extends Controller
         return view('admin.report.report', compact('services', 'orderCount', 'orders'));
     }
 
-    public function orders()
+    public function orders(Request $request, OrderService $orderServices)
     {
-        $orders = Orders::with('user', 'teknisi', 'manageService')->withoutGlobalScopes()->get();
+        $orders = $orderServices->getFilteredOrders($request);
+        $technicians = User::where('role', 'teknisi')->get();
 
-        return view('admin.report.__order_report', compact('orders'));
+        return view('admin.report.__order_report', compact('orders', 'technicians'));
     }
 
     public function income()
@@ -45,6 +48,9 @@ class ReportController extends Controller
 
     public function exportOrders(Request $request, $type)
     {
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
         $orders = Orders::with(['user', 'manageService', 'teknisi'])
             ->when($request->input('start_date') && $request->input('end_date'), function ($query) use ($request) {
                 $query->whereBetween('created_at', [$request->input('start_date'), $request->input('end_date')]);
@@ -53,7 +59,7 @@ class ReportController extends Controller
                 $query->where('status', $request->input('status'));
             })
             ->when($request->input('technician'), function ($query) use ($request) {
-                $query->where('technician_id', $request->input('technician'));
+                $query->where('teknisi_id', $request->input('technician'));
             })
             ->withoutGlobalScopes()
             ->get();
@@ -65,7 +71,11 @@ class ReportController extends Controller
         $handlers = [
             'pdf' => fn() => Pdf::loadView(
                 'admin.report.export.orders',
-                ['orders' => $orders]
+                [
+                    'orders' => $orders,
+                    'startDate' => $startDate,
+                    'endDate' => $endDate,
+                ]
             )->setPaper('a4', 'potrait')
                 ->download($fileName . '.pdf'),
 
@@ -79,19 +89,4 @@ class ReportController extends Controller
 
         return $handlers[$type]();
     }
-
-    // public function exportExcel()
-    // {
-    //     return Excel::download(new JasaExport, 'jasa.xlsx');
-    // }
-
-    // public function exportPdf()
-    // {
-    //     $orders = Orders::with(['user', 'manageService', 'teknisi'])->withoutGlobalScopes()->get();
-
-    //     $pdf = Pdf::loadView('admin.report.export.orders', compact('orders'))
-    //         ->setPaper('a4', 'landscape');
-
-    //     return $pdf->download('orders.pdf');
-    // }
 }
