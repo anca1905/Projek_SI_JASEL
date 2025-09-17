@@ -51,9 +51,8 @@ class AdminController extends Controller
     public function export()
     {
         try {
-            Artisan::call('backup:run', ['--only-db' => true]);
+            Artisan::call('backup:run');
             dd(Artisan::output());
-
 
             return back()->with('success', 'Proses export database berhasil! File tersimpan di folder backup.');
         } catch (\Exception $e) {
