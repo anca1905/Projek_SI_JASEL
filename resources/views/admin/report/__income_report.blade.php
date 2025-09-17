@@ -37,7 +37,8 @@
             </form>
 
             {{-- Summary Revenue Card --}}
-            <div class="mb-8 p-6 rounded-xl shadow-md border-l-4 border-blue-500 bg-blue-50 flex items-center justify-between">
+            <div
+                class="mb-8 p-6 rounded-xl shadow-md border-l-4 border-blue-500 bg-blue-50 flex items-center justify-between">
                 <div>
                     <h3 class="text-xl font-semibold text-blue-800 mb-1">Total Pendapatan Terfilter:</h3>
                     <p class="text-4xl font-extrabold text-blue-900">
@@ -50,10 +51,13 @@
                 </div>
             </div>
 
-            {{-- Export Button --}}
             <div class="mb-6 flex justify-end items-center space-x-4">
-                <a href="{{ route('admin.report.revenue', array_merge(request()->query(), ['export' => 'excel'])) }}"
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200">
+                <a href="{{ route('admin.admin.report.orders.export', array_merge(request()->query(), ['type' => 'pdf'])) }}"
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                    <i class="fas fa-file-pdf mr-2"></i> Export ke PDF
+                </a>
+                <a href="{{ route('admin.admin.report.orders.export', array_merge(request()->query(), ['type' => 'excel'])) }}"
+                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700">
                     <i class="fas fa-file-excel mr-2"></i> Export ke Excel
                 </a>
             </div>
@@ -63,37 +67,50 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Tanggal/Bulan</th>
-                                <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Jenis Jasa</th>
-                                <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Jumlah Pesanan</th>
-                                <th class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Pendapatan</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Tanggal/Bulan</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Jenis Jasa</th>
+                                <th
+                                    class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Jumlah Pesanan</th>
+                                <th
+                                    class="px-6 py-4 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                                    Pendapatan</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             {{-- Contoh data statis. Ganti dengan @foreach loop dari controller --}}
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-28</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Service Laptop</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500">3</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp 450.000</td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025-07-28</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Perbaikan AC</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500">1</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp 200.000</td>
-                            </tr>
-                            <tr class="bg-gray-50 font-bold">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2025-07</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Total Bulan Ini</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">50</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">Rp 12.500.000</td>
-                            </tr>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $order->finish_time  ?? '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $order->manageService->name }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-500">
+                                        {{ $order->total_orders }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium text-gray-900">Rp
+                                        {{ number_format($order->total_revenue, 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
+                            @foreach ($monthlyTotals as $period => $totals)
+                                <tr class="bg-gray-50 font-bold">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $period }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Total Bulan Ini</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">
+                                        {{ $totals['total_orders'] }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-900">Rp
+                                        {{ number_format($totals['total_revenue'], 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
                             {{-- @empty
                                 <tr>
                                     <td colspan="4" class="px-6 py-4 text-center text-gray-500">Tidak ada data pendapatan yang ditemukan.</td>
-                                </tr>
-                            @endforelse --}}
+                                </tr> --}}
                         </tbody>
                     </table>
                 </div>
