@@ -10,6 +10,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\OrderService;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
@@ -33,7 +34,30 @@ class ReportController extends Controller
 
     public function income()
     {
-        return view('admin.report.__income_report');
+        $orders = Orders::with('manageService')
+            ->selectRaw("
+        service_type,
+        DATE_FORMAT(finish_time, '%Y-%m') as period,
+        DATE(finish_time) as finish_date,
+        COUNT(*) as total_orders,
+        SUM(price) as total_revenue
+    ")
+            ->groupBy('service_type', 'period', 'finish_date')
+            ->orderBy('finish_date')
+            ->withoutGlobalScopes()
+            ->get();
+
+        // total per bulan sesuai period di atas
+        $monthlyTotals = $orders
+            ->groupBy('period')
+            ->map(function ($row) {
+                return [
+                    'total_orders' => $row->sum('total_orders'),
+                    'total_revenue' => $row->sum('total_revenue'),
+                ];
+            });
+
+        return view('admin.report.__income_report', compact('orders', 'monthlyTotals'));
     }
 
     public function technicians()
